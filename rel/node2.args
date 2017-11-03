@@ -1,0 +1,5 @@
+-name node2@127.0.0.1
+-setcookie super_secret
++K true
+-smp auto
++P 400000

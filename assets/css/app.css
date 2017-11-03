@@ -1,0 +1,51 @@
+/* This file is for your main application css. */
+
+body {
+  font-size: 16px !important;
+}
+
+.mainGrid {
+  display: grid;
+  grid-row-gap: 30px;
+  grid-template-columns: 100%;
+  justify-items: center;
+}
+
+.form {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.loadGrid {
+  display: grid;
+  grid-row-gap: 2px;
+  grid-template-columns: 33% 33% 33%;
+  font-size: 16px !important;
+  justify-items: center;
+  width:70%;
+  margin: auto;
+}
+
+.loadGrid button {
+  display: none;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  justify-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  width:70%;
+  margin: auto;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  font-size: 16px !important;
+  justify-items: center;
+  height: 100px;
+}
