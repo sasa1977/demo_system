@@ -2,7 +2,7 @@ import $ from "jquery"
 import {Socket} from "phoenix"
 import Highcharts from "highcharts"
 
-export let initialize = (csrfToken) => {
+let initialize = (csrfToken) => {
   let socket = new Socket("/socket");
   socket.connect();
 
@@ -104,4 +104,8 @@ export let initialize = (csrfToken) => {
     newData.push({x: 0, y: value});
     chart.series[0].setData(newData, true, false);
   }
+}
+
+export class LoadController {
+  static initialize(csrfToken) {initialize(csrfToken)}
 }

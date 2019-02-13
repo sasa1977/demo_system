@@ -5,7 +5,15 @@ config :example_system, ExampleSystemWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   http: [transport_options: [num_acceptors: 10]],
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin", cd: Path.expand("../assets", __DIR__)]]
+  watchers: [
+    node: [
+      "node_modules/webpack/bin/webpack.js",
+      "--mode",
+      "development",
+      "--watch-stdin",
+      cd: Path.expand("../assets", __DIR__)
+    ]
+  ]
 
 config :example_system, ExampleSystemWeb.Endpoint,
   live_reload: [

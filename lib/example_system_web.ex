@@ -41,16 +41,6 @@ defmodule ExampleSystemWeb do
       import ExampleSystemWeb.Router.Helpers
       import ExampleSystemWeb.ErrorHelpers
       import ExampleSystemWeb.Gettext
-
-      def render("scripts.html", %{socket_controller: socket_controller}) do
-        raw(~s'
-          <script>
-            require("js/#{socket_controller}.js").initialize(
-              #{Jason.encode!(Plug.CSRFProtection.get_csrf_token())}
-            )
-          </script>
-        ')
-      end
     end
   end
 
