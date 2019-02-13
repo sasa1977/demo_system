@@ -2,6 +2,15 @@ import $ from "jquery"
 import {Socket} from "phoenix"
 import Highcharts from "highcharts"
 
+Highcharts.setOptions({
+  chart: {
+      style: {
+          fontFamily: 'Courier new',
+          fontSize: "16px"
+      }
+  }
+});
+
 let initialize = (csrfToken) => {
   let socket = new Socket("/socket");
   socket.connect();
@@ -74,10 +83,10 @@ let initialize = (csrfToken) => {
       defaultSeriesType: 'line',
       height:'300px'
     },
-    title: {text: 'success rate'},
+    title: {text: 'success rate', style: {fontSize: "24px;"}},
     plotOptions: {line: {marker: {enabled: false}}},
-    xAxis: {type: 'integer', min: -60, max: 0},
-    yAxis: {min: 0, opposite: true, title: {text: 'jobs/sec', margin: 10}},
+    xAxis: {type: 'integer', min: -60, max: 0, visible: false},
+    yAxis: {min: 0, opposite: true, title: {text: 'jobs/sec', margin: 10}, labels: {style: {fontSize: "16px;"}}},
     series: [{showInLegend: false, name: 'Successful jobs', data: []}]
   });
 
@@ -87,10 +96,10 @@ let initialize = (csrfToken) => {
       defaultSeriesType: 'line',
       height:'300px'
     },
-    title: {text: 'scheduler usage'},
+    title: {text: 'scheduler usage', style: {fontSize: "24px;"}},
     plotOptions: {line: {marker: {enabled: false}}},
-    xAxis: {type: 'integer', min: -60, max: 0},
-    yAxis: {min: 0, max: 100, tickInterval: 10, opposite: true, title: {text: '%', margin: 10}},
+    xAxis: {type: 'integer', min: -60, max: 0, visible: false},
+    yAxis: {min: 0, max: 100, tickInterval: 10, opposite: true, title: {text: '%', margin: 10}, labels: {style: {fontSize: "16px;"}}},
     series: [{showInLegend: false, name: 'usage', data: []}]
   });
 

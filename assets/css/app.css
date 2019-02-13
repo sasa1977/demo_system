@@ -1,7 +1,8 @@
 /* This file is for your main application css. */
 
-body {
-  font-size: 16px !important;
+body, input {
+  font-size: 24px !important;
+  font-family: "Courier new";
 }
 
 .mainGrid {
@@ -20,7 +21,7 @@ body {
   display: grid;
   grid-row-gap: 2px;
   grid-template-columns: 33% 33% 33%;
-  font-size: 16px !important;
+  font-size: 24px !important;
   justify-items: center;
   width:70%;
   margin: auto;
@@ -45,7 +46,7 @@ body {
 .chartsGrid {
   display: grid;
   grid-template-columns: 50% 50%;
-  font-size: 16px !important;
+  font-size: 24px !important;
   justify-items: center;
   height: 100px;
 }
