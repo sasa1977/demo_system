@@ -10,7 +10,7 @@ defmodule Mix.Tasks.ExampleSystem.BuildAssets do
   def run(_args) do
     cmd!(
       "node",
-      [Path.join(~w(node_modules brunch bin brunch)), "build", "--production"],
+      [Path.join(~w(node_modules webpack bin webpack.js)), "--mode", "production"],
       cd: "assets"
     )
   end
