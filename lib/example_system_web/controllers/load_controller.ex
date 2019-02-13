@@ -2,7 +2,7 @@ defmodule ExampleSystemWeb.LoadController do
   use ExampleSystemWeb, :controller
 
   def index(conn, _params) do
-    render conn, "index.html", socket_controller: "load_controller"
+    render(conn, "index.html", socket_controller: "load_controller")
   end
 
   def change_load(conn, %{"desired_load" => desired_load}) when is_integer(desired_load) do

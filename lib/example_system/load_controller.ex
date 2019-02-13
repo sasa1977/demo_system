@@ -1,15 +1,14 @@
 defmodule ExampleSystem.LoadController do
   use GenServer, start: {__MODULE__, :start_link, []}
 
-  def start_link(), do:
-    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
+  def start_link(), do: GenServer.start_link(__MODULE__, nil, name: __MODULE__)
 
-  def load(), do:
-    get_value(:current_load)
+  def load(), do: get_value(:current_load)
 
   def change_load(desired_load) do
     current_load = load()
     set_value(:current_load, desired_load)
+
     if desired_load > current_load do
       (current_load + 1)..desired_load
       |> Stream.zip(Stream.cycle(all_nodes()))
@@ -17,27 +16,22 @@ defmodule ExampleSystem.LoadController do
     else
       fn ->
         :timer.sleep(1500)
-        Enum.each(Process.list, &:erlang.garbage_collect(&1, type: :major))
+        Enum.each(Process.list(), &:erlang.garbage_collect(&1, type: :major))
       end
       |> Task.async()
       |> Task.await(:infinity)
     end
   end
 
-  def set_failure_rate(desired_failure_rate), do:
-    set_value(:failure_rate, desired_failure_rate)
+  def set_failure_rate(desired_failure_rate), do: set_value(:failure_rate, desired_failure_rate)
 
-  def failure_rate(), do:
-    get_value(:failure_rate)
+  def failure_rate(), do: get_value(:failure_rate)
 
-  def join_worker(), do:
-    :ets.update_counter(__MODULE__, :workers_count, 1)
+  def join_worker(), do: :ets.update_counter(__MODULE__, :workers_count, 1)
 
-  def leave_worker(), do:
-    :ets.update_counter(__MODULE__, :workers_count, -1)
+  def leave_worker(), do: :ets.update_counter(__MODULE__, :workers_count, -1)
 
-  def workers_count(), do:
-    get_value(:workers_count)
+  def workers_count(), do: get_value(:workers_count)
 
   def change_schedulers(schedulers) do
     :erlang.system_flag(:schedulers_online, schedulers)
@@ -57,11 +51,9 @@ defmodule ExampleSystem.LoadController do
     value
   end
 
-  defp set_value(key, value), do:
-    :rpc.multicall(all_nodes(), :ets, :insert, [__MODULE__, {key, value}], :infinity)
+  defp set_value(key, value), do: :rpc.multicall(all_nodes(), :ets, :insert, [__MODULE__, {key, value}], :infinity)
 
-  defp all_nodes(), do:
-    Node.list([:this, :visible])
+  defp all_nodes(), do: Node.list([:this, :visible])
 
   defp start_worker({worker_id, target_node}) do
     if target_node == node() do

@@ -6,9 +6,9 @@ defmodule ExampleSystem.Mixfile do
       app: :example_system,
       version: "0.0.1",
       elixir: "~> 1.4",
-      elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      start_permanent: Mix.env() == :prod,
       deps: deps(),
       preferred_cli_env: [release: :prod],
       aliases: [
@@ -29,7 +29,7 @@ defmodule ExampleSystem.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -45,7 +45,7 @@ defmodule ExampleSystem.Mixfile do
       {:plug, "~> 1.7"},
       {:recon, "~> 2.0"},
       {:distillery, "~> 1.5"},
-      {:jason, "~> 1.0"},
+      {:jason, "~> 1.0"}
     ]
   end
 end

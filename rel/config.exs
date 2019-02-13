@@ -3,13 +3,13 @@ Path.join(["rel", "plugins", "*.exs"])
 |> Enum.map(&Code.eval_file(&1))
 
 use Mix.Releases.Config,
-    default_release: :default,
-    default_environment: :prod
+  default_release: :default,
+  default_environment: :prod
 
 environment :prod do
   set include_erts: true
   set include_src: false
-  set cookie: :"example_system"
+  set cookie: :example_system
 end
 
 release :node1 do

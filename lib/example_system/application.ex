@@ -3,6 +3,7 @@ defmodule ExampleSystem.Application do
 
   def start(_type, _args) do
     ExampleSystem.LoadController.change_schedulers(1)
+
     Supervisor.start_link(
       [
         ExampleSystem.BackendServices,

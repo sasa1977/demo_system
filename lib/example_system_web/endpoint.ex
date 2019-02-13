@@ -3,9 +3,7 @@ defmodule ExampleSystemWeb.Endpoint do
 
   socket "/socket", ExampleSystemWeb.UserSocket, websocket: true
 
-  plug Plug.Static,
-    at: "/", from: :example_system, gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+  plug Plug.Static, at: "/", from: :example_system, gzip: false, only: ~w(css fonts images js favicon.ico robots.txt)
 
   if code_reloading? do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
@@ -37,8 +35,7 @@ defmodule ExampleSystemWeb.Endpoint do
   It receives the endpoint configuration and checks if
   configuration should be loaded from the system environment.
   """
-  def init(_key, config), do:
-    {:ok, put_in(config[:http][:port], port())}
+  def init(_key, config), do: {:ok, put_in(config[:http][:port], port())}
 
   defp port() do
     if node() == :"node2@127.0.0.1", do: 4001, else: 4000

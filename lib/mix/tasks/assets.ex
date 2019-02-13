@@ -18,7 +18,8 @@ defmodule Mix.Tasks.ExampleSystem.BuildAssets do
   defp cmd!(cmd, args, opts) do
     case System.cmd(cmd, args, opts) do
       {output, 0} ->
-        Mix.shell.info(output)
+        Mix.shell().info(output)
+
       {output, exit_status} ->
         [output, "`#{cmd} #{Enum.join(args, " ")}` returned #{exit_status}"]
         |> Enum.join("\n")
