@@ -44,7 +44,7 @@ defmodule ExampleSystem.Mixfile do
       {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.7"},
       {:recon, "~> 2.0"},
-      {:distillery, "~> 1.5"},
+      {:distillery, "~> 2.0"},
       {:jason, "~> 1.0"}
     ]
   end
