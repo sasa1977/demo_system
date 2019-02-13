@@ -9,7 +9,7 @@ use Mix.Releases.Config,
 environment :prod do
   set include_erts: true
   set include_src: false
-  set cookie: :example_system
+  set cookie: :super_secret
 end
 
 release :node1 do

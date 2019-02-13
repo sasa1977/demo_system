@@ -6,8 +6,8 @@ defmodule Mix.Tasks.ExampleSystem.Node2 do
 
   def run(_args) do
     Node.start(:"node2@127.0.0.1")
-    Node.set_cookie(:example_system)
-    Node.connect(:"example_system@127.0.0.1")
+    Node.set_cookie(:super_secret)
+    Node.connect(:"node1@127.0.0.1")
     System.put_env("PORT", "4001")
     Mix.Task.run("phx.server")
   end
