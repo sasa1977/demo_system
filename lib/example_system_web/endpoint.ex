@@ -1,7 +1,7 @@
 defmodule ExampleSystemWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :example_system
 
-  socket "/socket", ExampleSystemWeb.UserSocket
+  socket "/socket", ExampleSystemWeb.UserSocket, websocket: true
 
   plug Plug.Static,
     at: "/", from: :example_system, gzip: false,
@@ -19,7 +19,7 @@ defmodule ExampleSystemWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
 
   plug Plug.MethodOverride
   plug Plug.Head

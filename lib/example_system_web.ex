@@ -45,7 +45,7 @@ defmodule ExampleSystemWeb do
         raw(~s'
           <script>
             require("js/#{socket_controller}.js").initialize(
-              #{Poison.encode!(Plug.CSRFProtection.get_csrf_token())}
+              #{Jason.encode!(Plug.CSRFProtection.get_csrf_token())}
             )
           </script>
         ')

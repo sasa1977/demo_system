@@ -4,7 +4,7 @@ config :example_system, ExampleSystemWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  http: [acceptors: 10],
+  http: [transport_options: [num_acceptors: 10]],
   watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
                     cd: Path.expand("../assets", __DIR__)]]
 

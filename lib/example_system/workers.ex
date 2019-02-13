@@ -7,7 +7,7 @@ defmodule ExampleSystem.Workers do
     Supervisor.start_link(
       number_producer_supervisors(),
       strategy: :one_for_all,
-      name: __MODULE__,
+      name: __MODULE__
     )
 
   def start_worker(id), do:
