@@ -2,11 +2,11 @@ defmodule ExampleSystem.Application do
   use Application
 
   def start(_type, _args) do
-    ExampleSystem.LoadController.change_schedulers(1)
+    LoadControl.change_schedulers(1)
 
     Supervisor.start_link(
       [
-        ExampleSystem.BackendServices,
+        ExampleSystem.Math,
         ExampleSystemWeb.Endpoint
       ],
       strategy: :one_for_one,

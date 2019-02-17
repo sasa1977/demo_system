@@ -1,4 +1,4 @@
-defmodule ExampleSystem.SchedulerMonitor do
+defmodule LoadControl.SchedulerMonitor do
   use GenServer, start: {__MODULE__, :start_link, []}
 
   def start_link(), do: GenServer.start_link(__MODULE__, nil, name: __MODULE__)
@@ -10,7 +10,7 @@ defmodule ExampleSystem.SchedulerMonitor do
   end
 
   def handle_info(:calc_stats, previous_times) do
-    ExampleSystem.Stats.schedulers_usage(schedulers_usage(schedulers_times(), previous_times))
+    LoadControl.Stats.schedulers_usage(schedulers_usage(schedulers_times(), previous_times))
     {:noreply, schedulers_times()}
   end
 

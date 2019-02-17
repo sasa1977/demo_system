@@ -15,8 +15,8 @@ use Mix.Config
 # which you typically run after static files are built.
 config :example_system, ExampleSystemWeb.Endpoint,
   server: true,
-  http: [],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  http: [transport_options: [num_acceptors: 5]]
 
 # Do not print debug messages in production
 config :logger, level: :info

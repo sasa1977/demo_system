@@ -23,7 +23,7 @@ defmodule ExampleSystem.Mixfile do
   def application do
     [
       mod: {ExampleSystem.Application, []},
-      extra_applications: [:sasl, :logger, :runtime_tools]
+      extra_applications: [:logger]
     ]
   end
 
@@ -45,7 +45,8 @@ defmodule ExampleSystem.Mixfile do
       {:plug, "~> 1.7"},
       {:recon, "~> 2.0"},
       {:distillery, "~> 2.0"},
-      {:jason, "~> 1.0"}
+      {:jason, "~> 1.0"},
+      {:load_control, path: "../load_control"}
     ]
   end
 end

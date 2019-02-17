@@ -1,4 +1,4 @@
-defmodule ExampleSystem.Workers do
+defmodule LoadControl.Workers do
   require Logger
 
   @shards 1000
@@ -20,7 +20,7 @@ defmodule ExampleSystem.Workers do
       Supervisor.Spec.supervisor(
         Supervisor,
         [
-          [ExampleSystem.Worker],
+          [LoadControl.Worker],
           [
             strategy: :simple_one_for_one,
             name: supervisor_name(id),

@@ -4,7 +4,7 @@ config :example_system, ExampleSystemWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  http: [transport_options: [num_acceptors: 10]],
+  http: [transport_options: [num_acceptors: 5]],
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",

@@ -3,6 +3,7 @@ Requires Erlang, Elixir, and node.js, as specified in the [.tool-versions](./.to
 Building:
 
 ```
+cd example_system
 mix deps.get &&
 pushd assets &&
 npm install &&

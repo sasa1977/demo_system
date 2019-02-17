@@ -2,7 +2,7 @@ defmodule ExampleSystemWeb.MetricsChannel do
   use Phoenix.Channel
 
   def join("metrics", _payload, socket) do
-    {:ok, %{points: ExampleSystem.Stats.subscribe()}, socket}
+    {:ok, %{points: LoadControl.subscribe_to_stats()}, socket}
   end
 
   def handle_info({:metrics, metrics}, socket) do
