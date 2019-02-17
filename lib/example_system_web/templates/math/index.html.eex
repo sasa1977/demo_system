@@ -9,4 +9,8 @@
   <%= form_tag("/sum", id: "sumForm", method: :get) do %>
     <input id="number" name="number" type="number" value="" autofocus="true">
   <% end %>
+  <br/>
+
+  <div id="results">
+  </div>
 </div>

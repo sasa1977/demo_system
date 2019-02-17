@@ -9,7 +9,8 @@ defmodule ExampleSystem.BackendServices do
              ExampleSystem.Stats,
              ExampleSystem.SchedulerMonitor,
              ExampleSystem.Workers,
-             ExampleSystem.LoadController
+             ExampleSystem.LoadController,
+             ExampleSystem.Math
            ],
            [strategy: :one_for_all, name: __MODULE__]
          ]},

@@ -15,8 +15,9 @@ import css from '../css/app.css'
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 import {LoadController} from "./load_controller"
+import {MathController} from "./math_controller"
 
-export {LoadController}
+export {LoadController, MathController}
 
 
 // Import local files
