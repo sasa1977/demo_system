@@ -10,9 +10,10 @@ defmodule ExampleSystem.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      preferred_cli_env: [release: :prod],
+      preferred_cli_env: [release: :prod, upgrade: :prod],
       aliases: [
-        release: ["example_system.build_assets", "phx.digest", "release"]
+        release: ["example_system.build_assets", "phx.digest", "release"],
+        upgrade: "example_system.upgrade"
       ]
     ]
   end
