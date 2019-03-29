@@ -2,6 +2,7 @@ defmodule ExampleSystemWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :example_system
 
   socket "/socket", ExampleSystemWeb.UserSocket, websocket: true
+  socket "/live", Phoenix.LiveView.Socket
 
   plug Plug.Static, at: "/", from: :example_system, gzip: false, only: ~w(css fonts images js favicon.ico robots.txt)
 

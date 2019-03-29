@@ -37,7 +37,7 @@ defmodule ExampleSystem.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.0"},
+      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.4", override: true},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
@@ -47,7 +47,8 @@ defmodule ExampleSystem.Mixfile do
       {:recon, "~> 2.0"},
       {:distillery, "~> 2.0"},
       {:jason, "~> 1.0"},
-      {:load_control, path: "../load_control"}
+      {:load_control, path: "../load_control"},
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}
     ]
   end
 end

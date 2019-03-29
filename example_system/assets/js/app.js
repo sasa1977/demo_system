@@ -16,6 +16,10 @@ import css from '../css/app.css'
 import "phoenix_html"
 import {LoadController} from "./load_controller"
 import {MathController} from "./math_controller"
+import LiveSocket from "phoenix_live_view"
+
+let liveSocket = new LiveSocket("/live")
+liveSocket.connect()
 
 export {LoadController, MathController}
 

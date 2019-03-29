@@ -1,5 +1,5 @@
 [
-  import_deps: [:phoenix],
+  import_deps: [:phoenix, :phoenix_live_view],
   inputs: ["*.{ex,exs}", "priv/*/seeds.exs", "{config,lib,test}/**/*.{ex,exs}"],
   subdirectories: ["priv/*/migrations"],
   line_length: 120,
