@@ -1,11 +1,8 @@
 defmodule ExampleSystemWeb.MathView do
   use ExampleSystemWeb, :view
 
-  def render("scripts.html", _params) do
-    raw(~s'
-      <script>
-        MathController.initialize(#{Jason.encode!(Plug.CSRFProtection.get_csrf_token())})
-      </script>
-    ')
-  end
+  defp number_input(_number), do: raw(~s/<input id="number" name="number" type="number" value="" autofocus="true">/)
+
+  defp sum_display(:calculating), do: "calculating"
+  defp sum_display(sum) when is_number(sum), do: sum
 end

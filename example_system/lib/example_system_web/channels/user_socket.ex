@@ -3,7 +3,6 @@ defmodule ExampleSystemWeb.UserSocket do
 
   ## Channels
   channel "metrics", ExampleSystemWeb.MetricsChannel
-  channel "math", ExampleSystemWeb.MathChannel
 
   def connect(_params, socket) do
     {:ok, socket}

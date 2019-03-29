@@ -8,6 +8,7 @@ defmodule ExampleSystemWeb.Router do
     plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_layout, {ExampleSystemWeb.LayoutView, :app}
   end
 
   pipeline :api do
@@ -17,8 +18,7 @@ defmodule ExampleSystemWeb.Router do
   scope "/", ExampleSystemWeb do
     pipe_through :browser
 
-    get "/", MathController, :index
-    get "/sum", MathController, :sum
+    live "/", MathLive
 
     scope "/load" do
       get "/", LoadController, :index
