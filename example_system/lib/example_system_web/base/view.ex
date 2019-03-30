@@ -2,9 +2,9 @@ defmodule ExampleSystemWeb.Base.View do
   defmacro __using__(opts) do
     quote do
       use Phoenix.View,
-          Keyword.merge(unquote(opts),
-            root: "lib/example_system_web/templates",
-            namespace: ExampleSystemWeb
+          Keyword.merge(
+            [root: "lib/example_system_web/templates", namespace: ExampleSystemWeb],
+            unquote(opts)
           )
 
       # Import convenience functions from controllers

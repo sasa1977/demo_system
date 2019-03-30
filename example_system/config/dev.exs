@@ -20,9 +20,7 @@ config :example_system, ExampleSystemWeb.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/example_system_web/views/.*(ex)$},
-      ~r{lib/example_system_web/templates/.*(eex)$},
-      ~r{lib/example_system_web/live/.*(ex)$}
+      ~r{lib/example_system_web/.*\.(eex|leex|ex)$}
     ]
   ]
 

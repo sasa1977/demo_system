@@ -21,7 +21,7 @@ defmodule ExampleSystemWeb.Router do
   scope "/", ExampleSystemWeb do
     pipe_through :browser
 
-    live "/", MathLive
-    live "/load", LoadLive
+    live "/", Math.Sum
+    live "/load", Load.Dashboard
   end
 end

@@ -1,8 +1,8 @@
-defmodule ExampleSystemWeb.LoadLive do
+defmodule ExampleSystemWeb.Load.Dashboard do
   use Phoenix.LiveView
 
   @impl Phoenix.LiveView
-  def render(assigns), do: ExampleSystemWeb.LoadView.render("index.html", assigns)
+  def render(assigns), do: ExampleSystemWeb.Load.View.render("dashboard.html", assigns)
 
   @impl Phoenix.LiveView
   def mount(_session, socket) do
@@ -28,7 +28,5 @@ defmodule ExampleSystemWeb.LoadLive do
     {:noreply, socket}
   end
 
-  def handle_info({:metrics, metrics}, socket) do
-    {:noreply, assign(socket, :metrics, metrics)}
-  end
+  def handle_info({:metrics, metrics}, socket), do: {:noreply, assign(socket, :metrics, metrics)}
 end

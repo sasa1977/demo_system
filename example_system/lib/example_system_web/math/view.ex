@@ -1,5 +1,5 @@
-defmodule ExampleSystemWeb.MathView do
-  use ExampleSystemWeb.Base.View
+defmodule ExampleSystemWeb.Math.View do
+  use ExampleSystemWeb.Base.View, root: "lib/example_system_web"
 
   defp number_input(_number), do: raw(~s/<input id="number" name="number" type="number" value="" autofocus="true">/)
 
