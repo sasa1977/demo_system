@@ -5,23 +5,23 @@
     <div>schedulers</div>
 
     <div>
-      <%= form_tag("", id: "loadForm", class: "form", "phx-submit": "change_load") do %>
+      <%= form_tag("", class: "form", "phx-submit": "change_load") do %>
         <%= number_input(:desired, :load, autofocus: true, value: @metrics.load) %>
-        <%= submit("change", id: "change_load") %>
+        <%= submit("change") %>
       <% end %>
     </div>
 
     <div>
-      <%= form_tag("", id: "failureForm", class: "form", "phx-submit": "change_failure_rate") do %>
+      <%= form_tag("", class: "form", "phx-submit": "change_failure_rate") do %>
         <%= number_input(:desired, :failure_rate, value: @metrics.failure_rate) %>
-        <%= submit("change", id: "change_failure_rate") %>
+        <%= submit("change") %>
       <% end %>
     </div>
 
     <div>
-      <%= form_tag("", id: "schedulersForm", class: "form", "phx-submit": "change_schedulers") do %>
+      <%= form_tag("", class: "form", "phx-submit": "change_schedulers") do %>
         <%= number_input(:desired, :schedulers, autofocus: true, value: @metrics.schedulers) %>
-        <%= submit("change", id: "change_schedulers") %>
+        <%= submit("change") %>
       <% end %>
     </div>
   </div>
@@ -75,6 +75,7 @@
         </g>
       </svg>
     </div>
+
     <div>
       <svg viewBox="0 0 <%= @metrics.scheduler_graph.width + 100 %> <%= @metrics.scheduler_graph.height + 150 %>" height="400" class="chart">
         <style>

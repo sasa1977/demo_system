@@ -1,10 +1,10 @@
 <div class="container">
-  <%= form_tag("/sum", id: "sumForm", method: :get, "phx-submit": "submit") do %>
+  <%= form_tag("/sum", "phx-submit": "submit") do %>
     <%= number_input(@number) %>
   <% end %>
   <br/>
 
-  <div id="results">
+  <div>
     <%= for operation <- @operations do %>
       <div>∑(1..<%= operation.number %>) = <%= sum_display(operation.sum) %></div>
     <% end %>
