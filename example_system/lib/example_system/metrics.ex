@@ -57,7 +57,7 @@ defmodule ExampleSystem.Metrics do
         memory_usage: entry.memory_usage,
         load: LoadControl.load(),
         schedulers: entry.scheduler_count,
-        failure_rate: LoadControl.failure_rate()
+        failure_rate: round(100 * LoadControl.failure_rate())
     }
   end
 
