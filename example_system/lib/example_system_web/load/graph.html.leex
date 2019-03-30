@@ -1,35 +1,36 @@
-<svg viewBox="0 0 <%= @graph.width + 100 %> <%= @graph.height + 150 %>" height="400" class="chart">
+<svg viewBox="0 0 <%= graph_width() + 100 %> <%= graph_height() + 150 %>" height="400" class="chart">
   <style>
     .title { font-size: 30px;}
   </style>
 
   <g transform="translate(100, 100)">
+    <%# title %>
     <g stroke="black">
       <text class="title" text-anchor="middle" dominant-baseline="central" x="300" y="-50" fill="black">
         <%= @title %>
       </text>
     </g>
 
-    <%= for line <- @graph.lines do %>
+    <%# legends %>
+    <%= for legend <- @graph.legends do %>
       <g stroke="black">
-        <text text-anchor="end" dominant-baseline="central" x="-20" y="<%= line.at %>" fill="black">
-          <%= line.title %>
+        <text text-anchor="end" dominant-baseline="central" x="-20" y="<%= y(legend.at) %>" fill="black">
+          <%= legend.title %>
         </text>
       </g>
 
       <g stroke-width="1" stroke="gray" stroke-dasharray="4">
-        <line x1="0" x2="<%= @graph.width %>" y1="<%= line.at %>" y2="<%= line.at %>"/>
+        <line x1="0" x2="<%= graph_width() %>" y1="<%= y(legend.at) %>" y2="<%= y(legend.at) %>"/>
       </g>
     <% end %>
+
+    <%# axes %>
     <g stroke-width="2" stroke="black">
-      <line x1="0" x2="0" y1="0" y2="<%= @graph.height %>"/>
-      <line x1="0" x2="<%= @graph.width %>" y1="<%= @graph.height %>" y2="<%= @graph.height %>"/>
+      <line x1="0" x2="0" y1="0" y2="<%= graph_height() %>"/>
+      <line x1="0" x2="<%= graph_width() %>" y1="<%= graph_height() %>" y2="<%= graph_height() %>"/>
     </g>
-    <polyline
-        fill="none"
-        stroke="#0074d9"
-        stroke-width="2"
-        points="<%= @graph.points %>"
-    />
+
+    <%# data points %>
+    <polyline fill="none" stroke="#0074d9" stroke-width="2" points="<%= data_points(@graph) %>"/>
   </g>
 </svg>

@@ -1,8 +1,7 @@
 defmodule ExampleSystem.Metrics do
   use GenServer
 
-  @graph_width 600
-  @graph_height 500
+  @num_points 600
 
   def start_link(_), do: GenServer.start_link(__MODULE__, nil, name: __MODULE__)
 
@@ -56,8 +55,8 @@ defmodule ExampleSystem.Metrics do
       state
       | workers_count: entry.workers_count,
         schedulers_usages:
-          Enum.take([entry.schedulers_usage / entry.scheduler_count | state.schedulers_usages], @graph_width),
-        jobs_rates: Enum.take([entry.jobs_rate | state.jobs_rates], @graph_width),
+          Enum.take([entry.schedulers_usage / entry.scheduler_count | state.schedulers_usages], @num_points),
+        jobs_rates: Enum.take([entry.jobs_rate | state.jobs_rates], @num_points),
         memory_usage: entry.memory_usage,
         load: LoadControl.load(),
         schedulers: entry.scheduler_count,
@@ -66,15 +65,14 @@ defmodule ExampleSystem.Metrics do
   end
 
   defp calc_scheduler_graph(state) do
-    points =
+    data_points =
       state.schedulers_usages
       |> Stream.with_index(1)
-      |> Stream.map(fn {usage, pos} -> "#{@graph_width - pos},#{y(usage)}" end)
-      |> Enum.join(" ")
+      |> Enum.map(fn {usage, pos} -> %{x: (@num_points - pos) / @num_points, y: usage} end)
 
-    lines = Enum.map([0, 25, 50, 75, 100], &%{title: "#{&1}%", at: y(&1 / 100)})
+    legends = Enum.map([0, 25, 50, 75, 100], &%{title: "#{&1}%", at: &1 / 100})
 
-    %{state | scheduler_graph: graph(points, lines)}
+    %{state | scheduler_graph: %{data_points: data_points, legends: legends}}
   end
 
   defp calc_jobs_graph(state) do
@@ -83,27 +81,22 @@ defmodule ExampleSystem.Metrics do
     step = max(quantize(max_rate / 5, order_of_magnitude), 1)
     max_rate = max(quantize(max_rate, step), 1)
 
-    points =
+    data_points =
       state.jobs_rates
       |> Stream.with_index(1)
-      |> Stream.map(fn {jobs_rate, pos} -> "#{@graph_width - pos},#{y(jobs_rate / max_rate)}" end)
-      |> Enum.join(" ")
+      |> Enum.map(fn {jobs_rate, pos} -> %{x: (@num_points - pos) / @num_points, y: jobs_rate / max_rate} end)
 
-    lines =
+    legends =
       0
       |> Stream.iterate(&(&1 + step))
       |> Stream.take_while(&(&1 <= max_rate))
-      |> Enum.map(&%{title: title(&1), at: y(&1 / max_rate)})
+      |> Enum.map(&%{title: title(&1), at: &1 / max_rate})
 
-    %{state | jobs_graph: graph(points, lines)}
+    %{state | jobs_graph: %{data_points: data_points, legends: legends}}
   end
 
   defp quantize(num, quant), do: ceil(num / quant) * quant
 
   defp title(num) when num > 0 and rem(num, 1000) == 0, do: "#{div(num, 1000)}k"
   defp title(num), do: num
-
-  defp y(relative), do: max(@graph_height - round(@graph_height * relative), 0)
-
-  defp graph(points, lines), do: %{width: @graph_width, height: @graph_height, points: points, lines: lines}
 end
