@@ -14,13 +14,10 @@ import css from '../css/app.css'
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-import {LoadController} from "./load_controller"
 import LiveSocket from "phoenix_live_view"
 
 let liveSocket = new LiveSocket("/live")
 liveSocket.connect()
-
-export {LoadController}
 
 
 // Import local files

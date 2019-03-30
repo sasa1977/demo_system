@@ -52,3 +52,9 @@ body, input {
   justify-items: center;
   height: 100px;
 }
+
+.graphGrid {
+  display: grid;
+  grid-template-columns: 100%;
+  justify-items: center;
+}

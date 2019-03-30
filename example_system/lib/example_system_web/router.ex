@@ -19,12 +19,6 @@ defmodule ExampleSystemWeb.Router do
     pipe_through :browser
 
     live "/", MathLive
-
-    scope "/load" do
-      get "/", LoadController, :index
-      post "/change_load", LoadController, :change_load
-      post "/change_failure_rate", LoadController, :change_failure_rate
-      post "/change_schedulers", LoadController, :change_schedulers
-    end
+    live "/load", LoadLive
   end
 end
