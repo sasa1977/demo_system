@@ -33,7 +33,7 @@ defmodule LoadControl.Stats do
       previous_points
       |> Enum.reduce(new_point, &add_maps/2)
       |> Enum.map(fn {key, value} ->
-        avg_value = if key == :schedulers_usage, do: value / length, else: trunc(value / length)
+        avg_value = if key == :schedulers_usage, do: value / length, else: round(value / length)
         {key, avg_value}
       end)
       |> Enum.into(%{node: node()})
