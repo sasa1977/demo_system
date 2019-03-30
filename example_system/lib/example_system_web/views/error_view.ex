@@ -1,5 +1,5 @@
 defmodule ExampleSystemWeb.ErrorView do
-  use ExampleSystemWeb, :view
+  use ExampleSystemWeb.Base.View
 
   def render("404.html", _assigns) do
     "Page not found"

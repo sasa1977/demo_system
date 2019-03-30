@@ -1,5 +1,5 @@
 defmodule ExampleSystemWeb.LoadView do
-  use ExampleSystemWeb, :view
+  use ExampleSystemWeb.Base.View
 
   def render("scripts.html", _params) do
     raw(~s'

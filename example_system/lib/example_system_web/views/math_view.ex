@@ -1,5 +1,5 @@
 defmodule ExampleSystemWeb.MathView do
-  use ExampleSystemWeb, :view
+  use ExampleSystemWeb.Base.View
 
   defp number_input(_number), do: raw(~s/<input id="number" name="number" type="number" value="" autofocus="true">/)
 
