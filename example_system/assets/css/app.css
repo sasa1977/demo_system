@@ -36,13 +36,17 @@ body, input {
 .statsGrid {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
-  justify-items: center;
   padding-top: 50px;
   padding-bottom: 50px;
   width:70%;
   margin: auto;
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
+}
+
+.statsGrid div {
+  display: grid;
+  justify-items: center;
 }
 
 .chartsGrid {
@@ -57,4 +61,8 @@ body, input {
   display: grid;
   grid-template-columns: 100%;
   justify-items: center;
+}
+
+.highlight {
+  background-color: lightgray;
 }

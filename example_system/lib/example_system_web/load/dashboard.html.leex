@@ -27,18 +27,23 @@
   </div>
 
   <div class="statsGrid">
-    <div>job count</div>
-    <div>jobs/sec</div>
-    <div>scheduler usage</div>
-    <div>memory (MB)</div>
-    <div><%= @metrics.workers_count %></div>
-    <div><%= @metrics.jobs_rate %></div>
-    <div><%= @metrics.schedulers_usage %>%</div>
-    <div><%= @metrics.memory_usage %></div>
+    <%= stats_element(@highlighted, "workers_count", "job count") %>
+    <%= stats_element(@highlighted, "jobs_rate", "jobs/sec") %>
+    <%= stats_element(@highlighted, "scheduler", "scheduler usage") %>
+    <%= stats_element(@highlighted, "memory", "memory usage") %>
+    <%= stats_element(@highlighted, "workers_count", @metrics.workers_count) %>
+    <%= stats_element(@highlighted, "jobs_rate", @metrics.jobs_rate) %>
+    <%= stats_element(@highlighted, "scheduler", "#{@metrics.schedulers_usage}%") %>
+    <%= stats_element(@highlighted, "memory", "#{@metrics.memory_usage} MB") %>
   </div>
 
   <div class="chartsGrid" style="width:70%">
-    <div><%= render __MODULE__, "graph.html", graph: @metrics.jobs_graph, title: "successful jobs/sec" %></div>
-    <div><%= render __MODULE__, "graph.html", graph: @metrics.scheduler_graph, title: "scheduler usage" %></div>
+    <div phx-click="highlight_jobs_graph" class="<%= highlight_class(@highlighted, "jobs_graph") %>">
+      <%= render __MODULE__, "graph.html", graph: @metrics.jobs_graph, title: "successful jobs/sec" %>
+    </div>
+
+    <div phx-click="highlight_scheduler_graph" class="<%= highlight_class(@highlighted, "scheduler_graph") %>">
+      <%= render __MODULE__, "graph.html", graph: @metrics.scheduler_graph, title: "scheduler usage" %>
+    </div>
   </div>
 </div>
