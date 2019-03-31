@@ -17,4 +17,8 @@ Starting:
 iex -S mix phx.server
 ```
 
-The you can visit the main page at localhost:4000, and the load control page at localhost:4000/load.
+Then, you can visit the following links:
+
+  - http://localhost:4000
+  - http://localhost:4000/load
+  - http://localhost:4000/services

@@ -23,5 +23,6 @@ defmodule ExampleSystemWeb.Router do
 
     live "/", Math.Sum
     live "/load", Load.Dashboard
+    live "/services", Services.Dashboard
   end
 end
