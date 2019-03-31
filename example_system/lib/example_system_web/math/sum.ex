@@ -5,13 +5,13 @@ defmodule ExampleSystemWeb.Math.Sum do
   def render(assigns), do: ExampleSystemWeb.Math.View.render("sum.html", assigns)
 
   @impl Phoenix.LiveView
-  def mount(_session, socket), do: {:ok, assign(socket, number: 0, operations: [])}
+  def mount(_session, socket), do: {:ok, assign(socket, operations: [], data: data())}
 
   @impl Phoenix.LiveView
-  def handle_event("submit", params, socket) do
-    operation = %{id: make_ref(), number: String.to_integer(Map.fetch!(params, "number")), sum: :calculating}
+  def handle_event("submit", %{"data" => %{"to" => to}}, socket) do
+    operation = %{id: make_ref(), number: String.to_integer(to), sum: :calculating}
     ExampleSystem.Math.sum(operation.id, operation.number)
-    {:noreply, socket |> update(:number, &(&1 + 1)) |> update(:operations, &[operation | &1])}
+    {:noreply, socket |> update(:operations, &[operation | &1]) |> assign(:data, data())}
   end
 
   def handle_info({:sum, operation_id, sum}, socket),
@@ -26,4 +26,6 @@ defmodule ExampleSystemWeb.Math.Sum do
       end
     )
   end
+
+  defp data(), do: Ecto.Changeset.cast({%{}, %{to: :integer}}, %{to: ""}, [:to])
 end

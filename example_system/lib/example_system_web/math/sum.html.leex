@@ -1,7 +1,7 @@
 <div class="container">
-  <%= form_tag("/sum", "phx-submit": "submit") do %>
-    <%= number_input(@number) %>
-  <% end %>
+  <%= form_for(@data, "", ["phx-submit": "submit", as: :data], fn f -> %>
+    <%= number_input(f, :to, autofocus: true) %>
+  <% end) %>
   <br/>
 
   <div>
