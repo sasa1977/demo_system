@@ -49,6 +49,7 @@ defmodule ExampleSystem.Mixfile do
       {:recon, "~> 2.0"},
       {:distillery, "~> 2.0"},
       {:jason, "~> 1.0"},
+      {:swarm, "~> 3.0"},
       {:load_control, path: "../load_control"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}
     ]
