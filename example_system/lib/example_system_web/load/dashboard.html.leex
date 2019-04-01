@@ -1,36 +1,23 @@
 <div class="mainGrid">
   <div class="loadGrid">
-    <div>jobs</div>
-    <div>failures %</div>
+    <%= form_for(@load, "", ["phx-submit": "change_load", as: :data], fn f -> %>
+      <%= number_input(f, :value, autofocus: true) %>
+    <% end) %>
+
+    <div>jobs (<span phx-click="highlight_memory" class="<%= highlight_class(@highlighted, "memory")%>"><%= @metrics.memory_usage %> MB</span>)</div>
+
+    <%= form_for(@schedulers, "", ["phx-submit": "change_schedulers", as: :data], fn f -> %>
+      <%= number_input(f, :value, autofocus: true) %>
+    <% end) %>
     <div>schedulers</div>
 
-    <div>
-      <%= form_for(@load, "", ["phx-submit": "change_load", as: :data], fn f -> %>
-        <%= number_input(f, :value, autofocus: true) %>
-      <% end) %>
-    </div>
-
-    <div>
-      <%= form_for(@failure_rate, "", ["phx-submit": "change_failure_rate", as: :data], fn f -> %>
-        <%= number_input(f, :value, autofocus: true) %>
-      <% end) %>
-    </div>
-
-    <div>
-      <%= form_for(@schedulers, "", ["phx-submit": "change_schedulers", as: :data], fn f -> %>
-        <%= number_input(f, :value, autofocus: true) %>
-      <% end) %>
-    </div>
+    <%= form_for(@failure_rate, "", ["phx-submit": "change_failure_rate", as: :data], fn f -> %>
+      <%= number_input(f, :value, autofocus: true) %>
+    <% end) %>
+    % failures
   </div>
 
-  <div class="statsGrid">
-    <%= stats_element(@highlighted, "jobs_rate", "jobs/sec") %>
-    <%= stats_element(@highlighted, "scheduler", "scheduler usage") %>
-    <%= stats_element(@highlighted, "memory", "memory usage") %>
-    <%= stats_element(@highlighted, "jobs_rate", @metrics.jobs_rate) %>
-    <%= stats_element(@highlighted, "scheduler", "#{@metrics.schedulers_usage}%") %>
-    <%= stats_element(@highlighted, "memory", "#{@metrics.memory_usage} MB") %>
-  </div>
+  <input type="button" value="reset" phx-click="reset"/>
 
   <div class="chartsGrid" style="width:70%">
     <div phx-click="highlight_jobs_graph" class="<%= highlight_class(@highlighted, "jobs_graph") %>">

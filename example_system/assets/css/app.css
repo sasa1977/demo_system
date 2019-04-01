@@ -9,7 +9,7 @@ body, input {
 
 .mainGrid {
   display: grid;
-  grid-row-gap: 30px;
+  grid-row-gap: 20px;
   grid-template-columns: 100%;
   justify-items: center;
 }
@@ -22,11 +22,20 @@ body, input {
 .loadGrid {
   display: grid;
   grid-row-gap: 2px;
-  grid-template-columns: 33% 33% 33%;
+  grid-column-gap: 1ch;
+  grid-template-columns: 50% 50%;
   font-size: 24px !important;
-  justify-items: center;
   width:70%;
   margin: auto;
+}
+
+.loadGrid form {
+  justify-self: right;
+}
+
+.loadGrid form input {
+  text-align: right;
+  width: 10ch;
 }
 
 .loadGrid button {

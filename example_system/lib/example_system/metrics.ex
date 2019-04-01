@@ -7,29 +7,29 @@ defmodule ExampleSystem.Metrics do
 
   def subscribe(), do: GenServer.call(__MODULE__, :subscribe)
 
+  def clear_history(), do: GenServer.call(__MODULE__, :clear_history)
+
+  def await_next() do
+    receive do
+      {:metrics, metrics} -> metrics
+    end
+  end
+
   @impl GenServer
   def init(_) do
     LoadControl.subscribe_to_stats()
 
-    {:ok,
-     %{
-       workers_count: 0,
-       schedulers_usages: [0],
-       jobs_rates: [0],
-       memory_usage: 0,
-       load: 0,
-       schedulers: 0,
-       failure_rate: 0,
-       scheduler_graph: nil,
-       jobs_graph: nil,
-       subscribers: []
-     }}
+    {:ok, initial_state()}
   end
 
   @impl GenServer
   def handle_call(:subscribe, {pid, _ref}, state) do
     Process.monitor(pid)
     {:reply, client_data(state), update_in(state.subscribers, &[pid | &1])}
+  end
+
+  def handle_call(:clear_history, _from, state) do
+    {:reply, :ok, %{initial_state() | subscribers: state.subscribers}}
   end
 
   @impl GenServer
@@ -42,6 +42,21 @@ defmodule ExampleSystem.Metrics do
 
   def handle_info({:DOWN, _mref, :process, pid, _}, state) do
     {:noreply, update_in(state.subscribers, &Enum.reject(&1, fn subscriber -> subscriber == pid end))}
+  end
+
+  defp initial_state() do
+    %{
+      workers_count: 0,
+      schedulers_usages: [0],
+      jobs_rates: [0],
+      memory_usage: 0,
+      load: 0,
+      schedulers: 0,
+      failure_rate: 0,
+      scheduler_graph: nil,
+      jobs_graph: nil,
+      subscribers: []
+    }
   end
 
   defp client_data(state) do

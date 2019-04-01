@@ -44,12 +44,46 @@ defmodule ExampleSystemWeb.Load.Dashboard do
     end
   end
 
+  def handle_event("reset", _params, socket) do
+    me = self()
+
+    Task.start_link(fn ->
+      ExampleSystem.Metrics.subscribe()
+
+      LoadControl.set_failure_rate(0)
+      LoadControl.change_load(0)
+
+      fn -> ExampleSystem.Metrics.await_next() end
+      |> Stream.repeatedly()
+      |> Stream.drop_while(&(&1.jobs_rate > 0))
+      |> Enum.take(1)
+
+      LoadControl.change_schedulers(1)
+      Process.sleep(1000)
+
+      send(me, :clear_history)
+    end)
+
+    {:noreply, socket}
+  end
+
   def handle_event("highlight_" <> what, _params, socket) do
     highlighted = if socket.assigns.highlighted == what, do: nil, else: what
     {:noreply, assign(socket, :highlighted, highlighted)}
   end
 
   def handle_info({:metrics, metrics}, socket), do: {:noreply, assign(socket, :metrics, metrics)}
+
+  def handle_info(:clear_history, socket) do
+    ExampleSystem.Metrics.clear_history()
+
+    {:noreply,
+     assign(socket,
+       load: changeset(LoadControl.load()),
+       schedulers: changeset(:erlang.system_info(:schedulers_online)),
+       failure_rate: changeset(round(LoadControl.failure_rate() * 100))
+     )}
+  end
 
   defp changeset(value), do: Ecto.Changeset.cast({%{}, %{value: :integer}}, %{value: value}, [:value])
 end

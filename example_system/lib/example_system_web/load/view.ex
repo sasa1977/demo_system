@@ -15,12 +15,4 @@ defmodule ExampleSystemWeb.Load.View do
 
   defp highlight_class(a, a), do: "highlight"
   defp highlight_class(_, _), do: ""
-
-  defp stats_element(highlighted, highlight_type, value) do
-    raw("""
-    <div phx-click="highlight_#{highlight_type}" class="#{highlight_class(highlighted, highlight_type)}">
-      <div>#{value}</div>
-    </div>
-    """)
-  end
 end
