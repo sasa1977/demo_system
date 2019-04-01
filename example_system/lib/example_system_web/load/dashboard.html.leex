@@ -5,33 +5,28 @@
     <div>schedulers</div>
 
     <div>
-      <%= form_tag("", class: "form", "phx-submit": "change_load") do %>
-        <%= number_input(:desired, :load, autofocus: true, value: @metrics.load) %>
-        <%= submit("change") %>
-      <% end %>
+      <%= form_for(@load, "", ["phx-submit": "change_load", as: :data], fn f -> %>
+        <%= number_input(f, :value, autofocus: true) %>
+      <% end) %>
     </div>
 
     <div>
-      <%= form_tag("", class: "form", "phx-submit": "change_failure_rate") do %>
-        <%= number_input(:desired, :failure_rate, value: @metrics.failure_rate) %>
-        <%= submit("change") %>
-      <% end %>
+      <%= form_for(@failure_rate, "", ["phx-submit": "change_failure_rate", as: :data], fn f -> %>
+        <%= number_input(f, :value, autofocus: true) %>
+      <% end) %>
     </div>
 
     <div>
-      <%= form_tag("", class: "form", "phx-submit": "change_schedulers") do %>
-        <%= number_input(:desired, :schedulers, autofocus: true, value: @metrics.schedulers) %>
-        <%= submit("change") %>
-      <% end %>
+      <%= form_for(@schedulers, "", ["phx-submit": "change_schedulers", as: :data], fn f -> %>
+        <%= number_input(f, :value, autofocus: true) %>
+      <% end) %>
     </div>
   </div>
 
   <div class="statsGrid">
-    <%= stats_element(@highlighted, "workers_count", "job count") %>
     <%= stats_element(@highlighted, "jobs_rate", "jobs/sec") %>
     <%= stats_element(@highlighted, "scheduler", "scheduler usage") %>
     <%= stats_element(@highlighted, "memory", "memory usage") %>
-    <%= stats_element(@highlighted, "workers_count", @metrics.workers_count) %>
     <%= stats_element(@highlighted, "jobs_rate", @metrics.jobs_rate) %>
     <%= stats_element(@highlighted, "scheduler", "#{@metrics.schedulers_usage}%") %>
     <%= stats_element(@highlighted, "memory", "#{@metrics.memory_usage} MB") %>

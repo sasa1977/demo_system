@@ -35,9 +35,9 @@ body, input {
 
 .statsGrid {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  grid-template-columns: 33% 33% 33%;
+  padding-top: 30px;
+  padding-bottom: 30px;
   width:70%;
   margin: auto;
   border-top: 1px solid lightgray;

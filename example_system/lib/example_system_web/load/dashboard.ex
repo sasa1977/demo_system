@@ -6,29 +6,42 @@ defmodule ExampleSystemWeb.Load.Dashboard do
 
   @impl Phoenix.LiveView
   def mount(_session, socket) do
-    {:ok, assign(socket, metrics: ExampleSystem.Metrics.subscribe(), highlighted: nil)}
+    {:ok,
+     assign(socket,
+       load: changeset(LoadControl.load()),
+       schedulers: changeset(:erlang.system_info(:schedulers_online)),
+       failure_rate: changeset(round(LoadControl.failure_rate() * 100)),
+       metrics: ExampleSystem.Metrics.subscribe(),
+       highlighted: nil
+     )}
   end
 
   @impl Phoenix.LiveView
-  def handle_event("change_load", %{"desired" => %{"load" => load}}, socket) do
-    with {load, ""} when load >= 0 <- Integer.parse(load),
-         do: Task.start_link(fn -> LoadControl.change_load(load) end)
-
-    {:noreply, socket}
+  def handle_event("change_load", %{"data" => %{"value" => load}}, socket) do
+    with {load, ""} when load >= 0 <- Integer.parse(load) do
+      Task.start_link(fn -> LoadControl.change_load(load) end)
+      {:noreply, assign(socket, :load, changeset(load))}
+    else
+      _ -> {:noreply, socket}
+    end
   end
 
-  def handle_event("change_schedulers", %{"desired" => %{"schedulers" => schedulers}}, socket) do
-    with {schedulers, ""} when schedulers > 0 <- Integer.parse(schedulers),
-         do: LoadControl.change_schedulers(schedulers)
-
-    {:noreply, socket}
+  def handle_event("change_schedulers", %{"data" => %{"value" => schedulers}}, socket) do
+    with {schedulers, ""} when schedulers > 0 <- Integer.parse(schedulers) do
+      Task.start_link(fn -> LoadControl.change_schedulers(schedulers) end)
+      {:noreply, assign(socket, :schedulers, changeset(schedulers))}
+    else
+      _ -> {:noreply, socket}
+    end
   end
 
-  def handle_event("change_failure_rate", %{"desired" => %{"failure_rate" => failure_rate}}, socket) do
-    with {failure_rate, ""} when failure_rate >= 0 <- Integer.parse(failure_rate),
-         do: LoadControl.set_failure_rate(failure_rate / 100)
-
-    {:noreply, socket}
+  def handle_event("change_failure_rate", %{"data" => %{"value" => failure_rate}}, socket) do
+    with {failure_rate, ""} when failure_rate >= 0 <- Integer.parse(failure_rate) do
+      Task.start_link(fn -> LoadControl.set_failure_rate(failure_rate / 100) end)
+      {:noreply, assign(socket, :failure_rate, changeset(failure_rate))}
+    else
+      _ -> {:noreply, socket}
+    end
   end
 
   def handle_event("highlight_" <> what, _params, socket) do
@@ -37,4 +50,6 @@ defmodule ExampleSystemWeb.Load.Dashboard do
   end
 
   def handle_info({:metrics, metrics}, socket), do: {:noreply, assign(socket, :metrics, metrics)}
+
+  defp changeset(value), do: Ecto.Changeset.cast({%{}, %{value: :integer}}, %{value: value}, [:value])
 end
