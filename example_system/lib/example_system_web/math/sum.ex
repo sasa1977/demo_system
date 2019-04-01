@@ -9,9 +9,15 @@ defmodule ExampleSystemWeb.Math.Sum do
 
   @impl Phoenix.LiveView
   def handle_event("submit", %{"data" => %{"to" => to}}, socket) do
-    operation = %{id: make_ref(), number: String.to_integer(to), sum: :calculating}
-    ExampleSystem.Math.sum(operation.id, operation.number)
-    {:noreply, socket |> update(:operations, &[operation | &1]) |> assign(:data, data())}
+    case Integer.parse(to) do
+      {number, ""} ->
+        operation = %{id: make_ref(), number: number, sum: :calculating}
+        ExampleSystem.Math.sum(operation.id, operation.number)
+        {:noreply, socket |> update(:operations, &[operation | &1]) |> assign(:data, data())}
+
+      _ ->
+        {:noreply, socket}
+    end
   end
 
   def handle_info({:sum, operation_id, sum}, socket),

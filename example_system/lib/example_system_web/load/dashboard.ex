@@ -11,20 +11,23 @@ defmodule ExampleSystemWeb.Load.Dashboard do
 
   @impl Phoenix.LiveView
   def handle_event("change_load", %{"desired" => %{"load" => load}}, socket) do
-    load = String.to_integer(load)
-    Task.start_link(fn -> LoadControl.change_load(load) end)
+    with {load, ""} when load >= 0 <- Integer.parse(load),
+         do: Task.start_link(fn -> LoadControl.change_load(load) end)
+
     {:noreply, socket}
   end
 
   def handle_event("change_schedulers", %{"desired" => %{"schedulers" => schedulers}}, socket) do
-    schedulers = String.to_integer(schedulers)
-    LoadControl.change_schedulers(schedulers)
+    with {schedulers, ""} when schedulers > 0 <- Integer.parse(schedulers),
+         do: LoadControl.change_schedulers(schedulers)
+
     {:noreply, socket}
   end
 
   def handle_event("change_failure_rate", %{"desired" => %{"failure_rate" => failure_rate}}, socket) do
-    failure_rate = String.to_integer(failure_rate)
-    LoadControl.set_failure_rate(failure_rate / 100)
+    with {failure_rate, ""} when failure_rate >= 0 <- Integer.parse(failure_rate),
+         do: LoadControl.set_failure_rate(failure_rate / 100)
+
     {:noreply, socket}
   end
 
