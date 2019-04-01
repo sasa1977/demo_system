@@ -11,8 +11,8 @@ defmodule ExampleSystemWeb.Math.Sum do
   def handle_event("submit", %{"data" => %{"to" => to}}, socket) do
     case Integer.parse(to) do
       {number, ""} ->
-        operation = %{id: make_ref(), number: number, sum: :calculating}
-        ExampleSystem.Math.sum(operation.id, operation.number)
+        {:ok, pid} = ExampleSystem.Math.sum(number)
+        operation = %{pid: pid, number: number, sum: :calculating}
         {:noreply, socket |> update(:operations, &[operation | &1]) |> assign(:data, data())}
 
       _ ->
@@ -20,17 +20,17 @@ defmodule ExampleSystemWeb.Math.Sum do
     end
   end
 
-  def handle_info({:sum, operation_id, sum}, socket),
-    do: {:noreply, update(socket, :operations, &update_sum(&1, operation_id, sum))}
+  def handle_info({:sum, pid, sum}, socket),
+    do: {:noreply, update(socket, :operations, &set_result(&1, pid, sum))}
 
-  defp update_sum(operations, id, sum) do
-    Enum.map(
-      operations,
-      fn
-        %{id: ^id} = operation -> %{operation | sum: sum}
-        operation -> operation
-      end
-    )
+  def handle_info({:DOWN, _ref, :process, pid, _reason}, socket),
+    do: {:noreply, update(socket, :operations, &set_result(&1, pid, :error))}
+
+  defp set_result(operations, pid, result) do
+    case Enum.split_with(operations, &match?(%{pid: ^pid, sum: :calculating}, &1)) do
+      {[operation], rest} -> [%{operation | sum: result} | rest]
+      _other -> operations
+    end
   end
 
   defp data(), do: Ecto.Changeset.cast({%{}, %{to: :integer}}, %{to: ""}, [:to])
