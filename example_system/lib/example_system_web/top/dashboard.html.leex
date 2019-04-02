@@ -1,0 +1,22 @@
+<div class="topDashboard">
+  <div style="height:100%">
+    <div class="processesGrid">
+      <div></div>
+      <div class="header">Process</div>
+      <div class="header">CPU</div>
+
+      <%= Enum.map(@top, fn process -> %>
+          <div class="pid">
+            <a href="#" phx-click="process_info" phx-value="<%= process.pid %>">info</a>
+            <a href="#" phx-click="process_kill" phx-value="<%= process.pid %>">kill</a>
+          </div>
+          <%= process.pid %>
+        <div class="cpu"><%= process.cpu %>%</div>
+      <% end) %>
+    </div>
+  </div>
+
+  <pre class="output">
+    <%= @output %>
+  </pre>
+</div>
