@@ -11,6 +11,7 @@
   "jason": {:hex, :jason, "1.1.2", "b03dedea67a99223a2eaf9f1264ce37154564de899fd3d8b9a21b1a6fd64afe7", [:mix], [{:decimal, "~> 1.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm"},
   "libring": {:hex, :libring, "1.4.0", "41246ba2f3fbc76b3971f6bce83119dfec1eee17e977a48d8a9cfaaf58c2a8d6", [:mix], [], "hexpm"},
   "mime": {:hex, :mime, "1.3.1", "30ce04ab3175b6ad0bdce0035cba77bba68b813d523d1aac73d9781b4d193cf8", [:mix], [], "hexpm"},
+  "parent": {:hex, :parent, "0.6.0", "67ba15c48273b64febce36b9d42acd822a45672c71c90267c60ea8e0616e4e6e", [:mix], [], "hexpm"},
   "phoenix": {:git, "https://github.com/phoenixframework/phoenix.git", "ef269781da52b7d3ee6dc80b1624eb10ee49c9ee", [branch: "v1.4"]},
   "phoenix_ecto": {:hex, :phoenix_ecto, "4.0.0", "c43117a136e7399ea04ecaac73f8f23ee0ffe3e07acfcb8062fe5f4c9f0f6531", [:mix], [{:ecto, "~> 3.0", [hex: :ecto, repo: "hexpm", optional: false]}, {:phoenix_html, "~> 2.9", [hex: :phoenix_html, repo: "hexpm", optional: true]}, {:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: false]}], "hexpm"},
   "phoenix_html": {:hex, :phoenix_html, "2.13.2", "f5d27c9b10ce881a60177d2b5227314fc60881e6b66b41dfe3349db6ed06cf57", [:mix], [{:plug, "~> 1.5", [hex: :plug, repo: "hexpm", optional: false]}], "hexpm"},

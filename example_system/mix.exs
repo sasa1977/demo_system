@@ -52,7 +52,8 @@ defmodule ExampleSystem.Mixfile do
       {:swarm, "~> 3.0"},
       {:stream_data, "~> 0.4.3", only: :test},
       {:load_control, path: "../load_control"},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
+      {:parent, "~> 0.6"}
     ]
   end
 end

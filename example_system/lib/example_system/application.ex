@@ -6,6 +6,7 @@ defmodule ExampleSystem.Application do
 
     Supervisor.start_link(
       [
+        ExampleSystem.Top,
         ExampleSystem.Metrics,
         ExampleSystem.Math,
         ExampleSystemWeb.Endpoint

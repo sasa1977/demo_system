@@ -5,6 +5,7 @@ defmodule LoadControl.Worker do
         LoadControl.join_worker()
 
         try do
+          :timer.sleep(:rand.uniform(1000))
           loop(id)
         after
           LoadControl.leave_worker()
@@ -12,14 +13,13 @@ defmodule LoadControl.Worker do
       end)
 
   defp loop(id) do
-    :timer.sleep(1000)
-
     if id <= LoadControl.load() do
       if :rand.uniform() < LoadControl.failure_rate(), do: raise("some error")
 
       _ = Enum.reduce(1..50, 0, &(&1 + &2))
       LoadControl.Stats.job_processed()
       :erlang.garbage_collect()
+      :timer.sleep(1000)
       loop(id)
     end
   end

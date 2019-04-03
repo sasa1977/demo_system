@@ -6,8 +6,7 @@ defmodule ExampleSystemWeb.Top.Dashboard do
 
   @impl Phoenix.LiveView
   def mount(_session, socket) do
-    if socket.connected?, do: measure()
-    {:ok, assign(socket, top: top(), output: "")}
+    {:ok, assign(socket, top: ExampleSystem.Top.subscribe(), output: "")}
   end
 
   @impl Phoenix.LiveView
@@ -19,49 +18,7 @@ defmodule ExampleSystemWeb.Top.Dashboard do
     {:noreply, socket}
   end
 
-  def handle_info({:top, top}, socket) do
-    measure()
-    {:noreply, assign(socket, top: top)}
-  end
-
-  defp measure() do
-    me = self()
-    Task.start_link(fn -> send(me, {:top, top()}) end)
-  end
-
-  defp top() do
-    wall_times = LoadControl.SchedulerMonitor.wall_times()
-
-    initial_processes = processes()
-    Process.sleep(:timer.seconds(1))
-
-    final_processes =
-      Enum.map(
-        processes(),
-        fn {pid, reds} ->
-          prev_reds = Map.get(initial_processes, pid, 0)
-          %{pid: pid, reds: reds - prev_reds}
-        end
-      )
-
-    schedulers_usage = LoadControl.SchedulerMonitor.usage(wall_times) / :erlang.system_info(:schedulers_online)
-
-    total_reds_delta = final_processes |> Stream.map(& &1.reds) |> Enum.sum()
-
-    final_processes
-    |> Enum.sort_by(& &1.reds, &>=/2)
-    |> Stream.reject(&(&1.pid == self()))
-    |> Stream.take(10)
-    |> Enum.map(&%{pid: &1.pid, cpu: round(schedulers_usage * 100 * &1.reds / total_reds_delta)})
-  end
-
-  defp processes() do
-    for {pid, {:reductions, reds}} <- Stream.map(Process.list(), &{&1, Process.info(&1, :reductions)}),
-        into: %{},
-        do: {stringify_pid(pid), reds}
-  end
-
-  defp stringify_pid(pid), do: pid |> inspect() |> String.replace(~r/^#PID</, "") |> String.replace(~r/>$/, "")
+  def handle_info({:top, top}, socket), do: {:noreply, assign(socket, top: top)}
 
   defp process_info(pid) do
     [current_stacktrace(pid), "\n\n", trace_process(pid)]
