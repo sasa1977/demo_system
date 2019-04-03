@@ -26,31 +26,10 @@ defmodule ExampleSystemWeb.Top.Dashboard do
 
   defp trace_process(pid) do
     trace =
-      Task.async(fn ->
-        try do
-          :erlang.trace(pid, true, [:call])
-        rescue
-          ArgumentError ->
-            ""
-        else
-          _ ->
-            :erlang.trace_pattern({:_, :_, :_}, true, [:local])
-            Process.send_after(self(), :stop_trace, :timer.seconds(1))
-
-            fn ->
-              receive do
-                {:trace, ^pid, :call, {mod, fun, args}} -> {mod, fun, args}
-                :stop_trace -> :stop_trace
-              end
-            end
-            |> Stream.repeatedly()
-            |> Stream.take(50)
-            |> Stream.take_while(&(&1 != :stop_trace))
-            |> Stream.map(fn {mod, fun, args} -> "#{inspect(mod)}.#{fun}(#{inspect_args(args)})" end)
-            |> Enum.join("\n\n")
-        end
-      end)
-      |> Task.await()
+      pid
+      |> Runtime.trace()
+      |> Stream.map(fn {mod, fun, args} -> "#{inspect(mod)}.#{fun}(#{inspect_args(args)})" end)
+      |> Enum.join("\n\n")
 
     [
       "Dynamic trace",

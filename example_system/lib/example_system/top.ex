@@ -40,36 +40,5 @@ defmodule ExampleSystem.Top do
     })
   end
 
-  defp top() do
-    wall_times = LoadControl.SchedulerMonitor.wall_times()
-
-    initial_processes = processes()
-    Process.sleep(:timer.seconds(1))
-
-    final_processes =
-      Enum.map(
-        processes(),
-        fn {pid, reds} ->
-          prev_reds = Map.get(initial_processes, pid, 0)
-          %{pid: pid, reds: reds - prev_reds}
-        end
-      )
-
-    schedulers_usage = LoadControl.SchedulerMonitor.usage(wall_times) / :erlang.system_info(:schedulers_online)
-    total_reds_delta = final_processes |> Stream.map(& &1.reds) |> Enum.sum()
-
-    top =
-      final_processes
-      |> Enum.sort_by(& &1.reds, &>=/2)
-      |> Stream.take(10)
-      |> Enum.map(&%{pid: &1.pid, cpu: round(schedulers_usage * 100 * &1.reds / total_reds_delta)})
-
-    GenServer.cast(__MODULE__, {:top, top})
-  end
-
-  defp processes() do
-    for {pid, {:reductions, reds}} <- Stream.map(Process.list(), &{&1, Process.info(&1, :reductions)}),
-        into: %{},
-        do: {pid, reds}
-  end
+  defp top(), do: GenServer.cast(__MODULE__, {:top, Runtime.top(:timer.seconds(1))})
 end
