@@ -6,7 +6,7 @@
 
   <div>
     <%= for operation <- @operations do %>
-      <div>∑(1..<%= operation.number %>) = <%= sum_display(operation.sum) %></div>
+      <div>∑(1..<%= operation.input %>) = <%= operation.result %></div>
     <% end %>
   </div>
 </div>

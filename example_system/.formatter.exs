@@ -5,6 +5,8 @@
   line_length: 120,
   locals_without_parens: [
     release: 2,
-    set: 1
+    set: 1,
+    gen: 1,
+    gen: 2
   ]
 ]

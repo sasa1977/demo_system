@@ -50,10 +50,11 @@ defmodule ExampleSystem.Mixfile do
       {:distillery, "~> 2.0"},
       {:jason, "~> 1.0"},
       {:swarm, "~> 3.0"},
-      {:stream_data, "~> 0.4.3", only: :test},
       {:load_control, path: "../load_control"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
-      {:parent, "~> 0.6"}
+      {:parent, "~> 0.6"},
+      {:stream_data, "~> 0.4.3", only: :test},
+      {:assertions, "~> 0.13", only: :test}
     ]
   end
 end
