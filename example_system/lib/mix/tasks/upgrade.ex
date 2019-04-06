@@ -11,11 +11,11 @@ defmodule Mix.Tasks.ExampleSystem.Upgrade do
 
     :ok =
       File.cp!(
-        "_build/prod/lib/example_system/ebin/Elixir.ExampleSystem.Math.beam",
-        "_build/prod/rel/node1/lib/example_system-0.0.1/ebin/Elixir.ExampleSystem.Math.beam"
+        "_build/prod/lib/example_system/ebin/Elixir.ExampleSystemWeb.Math.Sum.beam",
+        "_build/prod/rel/node1/lib/example_system-0.0.1/ebin/Elixir.ExampleSystemWeb.Math.Sum.beam"
       )
 
-    {:reloaded, ExampleSystem.Math, [ExampleSystem.Math]} =
-      :rpc.call(:"node1@127.0.0.1", IEx.Helpers, :r, [ExampleSystem.Math])
+    {:reloaded, ExampleSystemWeb.Math.Sum, [ExampleSystemWeb.Math.Sum]} =
+      :rpc.call(:"node1@127.0.0.1", IEx.Helpers, :r, [ExampleSystemWeb.Math.Sum])
   end
 end
