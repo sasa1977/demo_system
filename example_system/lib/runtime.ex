@@ -56,7 +56,4 @@ defmodule Runtime do
     end)
     |> Task.await()
   end
-
-  defp format_trace({:trace, _pid, :call, {module, function, args}}),
-    do: "#{inspect(module)}.#{function}(#{args |> Enum.map(&inspect/1) |> Enum.intersperse(", ")})\n"
 end
