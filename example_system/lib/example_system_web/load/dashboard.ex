@@ -10,7 +10,6 @@ defmodule ExampleSystemWeb.Load.Dashboard do
      assign(socket,
        load: changeset(LoadControl.load()),
        schedulers: changeset(:erlang.system_info(:schedulers_online)),
-       failure_rate: changeset(round(LoadControl.failure_rate() * 100)),
        metrics: ExampleSystem.Metrics.subscribe(),
        highlighted: nil
      )}
@@ -35,22 +34,12 @@ defmodule ExampleSystemWeb.Load.Dashboard do
     end
   end
 
-  def handle_event("change_failure_rate", %{"data" => %{"value" => failure_rate}}, socket) do
-    with {failure_rate, ""} when failure_rate >= 0 <- Integer.parse(failure_rate) do
-      Task.start_link(fn -> LoadControl.set_failure_rate(failure_rate / 100) end)
-      {:noreply, assign(socket, :failure_rate, changeset(failure_rate))}
-    else
-      _ -> {:noreply, socket}
-    end
-  end
-
   def handle_event("reset", _params, socket) do
     me = self()
 
     Task.start_link(fn ->
       ExampleSystem.Metrics.subscribe()
 
-      LoadControl.set_failure_rate(0)
       LoadControl.change_load(0)
 
       fn -> ExampleSystem.Metrics.await_next() end
@@ -80,8 +69,7 @@ defmodule ExampleSystemWeb.Load.Dashboard do
     {:noreply,
      assign(socket,
        load: changeset(LoadControl.load()),
-       schedulers: changeset(:erlang.system_info(:schedulers_online)),
-       failure_rate: changeset(round(LoadControl.failure_rate() * 100))
+       schedulers: changeset(:erlang.system_info(:schedulers_online))
      )}
   end
 

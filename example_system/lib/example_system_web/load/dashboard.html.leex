@@ -10,11 +10,6 @@
       <%= number_input(f, :value, autofocus: true) %>
     <% end) %>
     <div>schedulers</div>
-
-    <%= form_for(@failure_rate, "", ["phx-submit": "change_failure_rate", as: :data], fn f -> %>
-      <%= number_input(f, :value, autofocus: true) %>
-    <% end) %>
-    % failures
   </div>
 
   <input type="button" value="reset" phx-click="reset"/>
