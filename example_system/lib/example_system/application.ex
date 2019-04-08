@@ -8,6 +8,7 @@ defmodule ExampleSystem.Application do
       [
         ExampleSystem.Top,
         ExampleSystem.Metrics,
+        ExampleSystem.Service,
         ExampleSystem.Math,
         ExampleSystemWeb.Endpoint
       ],
