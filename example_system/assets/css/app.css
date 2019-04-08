@@ -3,7 +3,7 @@
 @import "../../deps/phoenix_live_view/assets/css/live_view.css";
 
 body, input {
-  font-size: 24px !important;
+  font-size: 30px !important;
   font-family: "Courier new";
 }
 
@@ -24,7 +24,7 @@ body, input {
   grid-row-gap: 2px;
   grid-column-gap: 1ch;
   grid-template-columns: 50% 50%;
-  font-size: 24px !important;
+  font-size: 30px !important;
   width:70%;
   margin: auto;
 }
@@ -42,28 +42,13 @@ body, input {
   display: none;
 }
 
-.statsGrid {
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  width:70%;
-  margin: auto;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-}
-
-.statsGrid div {
-  display: grid;
-  justify-items: center;
-}
-
 .chartsGrid {
   display: grid;
   grid-template-columns: 50% 50%;
-  font-size: 24px !important;
+  font-size: 30px !important;
   justify-items: center;
   height: 100px;
+  width: 90%;
 }
 
 .graphGrid {
@@ -113,4 +98,8 @@ body, input {
   font-size: 16px;
   font-weight: lighter;
   margin-top: 4px;
+}
+
+.sumForm, .sumForm input {
+  font-size: 30px !important;
 }

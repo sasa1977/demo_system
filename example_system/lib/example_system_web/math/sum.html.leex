@@ -1,4 +1,4 @@
-<div class="container">
+<div class="sumForm">
   <%= form_for(@data, "", ["phx-submit": "submit", as: :data], fn f -> %>
     <%= number_input(f, :to, autofocus: true) %>
   <% end) %>

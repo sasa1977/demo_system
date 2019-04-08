@@ -1,7 +1,6 @@
 <div>
   <%= form_tag("", class: "form", "phx-submit": "add_service") do %>
     <%= text_input(:service, :name, autofocus: true) %>
-    <%= submit("add") %>
   <% end %>
 </div>
 
@@ -12,8 +11,7 @@
       <ul>
         <%= Enum.map(node.services, fn service -> %>
           <li>
-            <span><%= service %></span>
-            <%= submit("invoke", "phx-click": "invoke_#{service}") %>
+            <%= link(service, to: "#", "phx-click": "invoke_#{service}") %>
           </li>
         <% end) %>
       </ul>

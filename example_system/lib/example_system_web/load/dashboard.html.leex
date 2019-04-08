@@ -14,7 +14,7 @@
 
   <input type="button" value="reset" phx-click="reset"/>
 
-  <div class="chartsGrid" style="width:70%">
+  <div class="chartsGrid">
     <div phx-click="highlight_jobs_graph" class="<%= highlight_class(@highlighted, "jobs_graph") %>">
       <%= render __MODULE__, "graph.html", graph: @metrics.jobs_graph, title: "successful jobs/sec" %>
     </div>
