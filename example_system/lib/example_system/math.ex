@@ -15,7 +15,7 @@ defmodule ExampleSystem.Math do
   end
 
   defp calc_sum(13), do: raise("error")
-  defp calc_sum(x), do: calc_sum(1, x, 0)
+  defp calc_sum(n), do: calc_sum(1, n, 0)
 
   defp calc_sum(from, from, sum), do: sum + from
   defp calc_sum(from, to, acc_sum), do: calc_sum(from + 1, to, acc_sum + from)
