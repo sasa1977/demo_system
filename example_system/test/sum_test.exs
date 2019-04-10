@@ -32,9 +32,6 @@ defmodule ExampleSystemWeb.SumTest do
   defp valid_input(), do: filter(positive_integer(), &(&1 != 13))
   defp invalid_input(), do: one_of([non_positive_integer(), invalid_string()])
 
-  defp non_negative_integer(), do: map(positive_integer(), &(&1 - 1))
-  defp non_positive_integer(), do: map(non_negative_integer(), &(-&1))
-
   defp invalid_string() do
     one_of([
       constant(""),
@@ -61,4 +58,7 @@ defmodule ExampleSystemWeb.SumTest do
             decimal_part <- non_negative_integer(),
             do: "#{integer_part}.#{decimal_part}"
   end
+
+  defp non_negative_integer(), do: map(positive_integer(), &(&1 - 1))
+  defp non_positive_integer(), do: map(non_negative_integer(), &(-&1))
 end
