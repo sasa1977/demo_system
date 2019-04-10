@@ -8,7 +8,7 @@ defmodule ExampleSystem.MathTest do
     check all x <- valid_input() do
       assert {:ok, pid} = Math.sum(x)
       assert_receive({:sum, ^pid, sum})
-      assert sum == div(x * (x + 1), 2)
+      assert sum == Enum.sum(1..x)
     end
   end
 

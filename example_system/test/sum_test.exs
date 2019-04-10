@@ -6,7 +6,7 @@ defmodule ExampleSystemWeb.SumTest do
   alias ExampleSystemWeb.Math.Sum
 
   property "flow for valid input" do
-    check all number <- valid_input() do
+    check all number <- valid_input(), expected_sum = Enum.sum(1..number) do
       {:ok, view, _html} = mount_disconnected(ExampleSystemWeb.Endpoint, Sum, session: %{})
       {:ok, view, _html} = mount(view)
 
@@ -14,12 +14,12 @@ defmodule ExampleSystemWeb.SumTest do
       assert String.contains?(html, "∑(1..#{number}) = calculating")
 
       assert_async(timeout: :timer.seconds(1), sleep_time: 10) do
-        assert String.contains?(render(view), "∑(1..#{number}) = #{div(number * (number + 1), 2)}")
+        assert String.contains?(render(view), "∑(1..#{number}) = #{expected_sum}")
       end
     end
   end
 
-  test "errors are reported for invalid input" do
+  property "reporting errors for invalid input" do
     check all input <- invalid_input() do
       {:ok, view, _html} = mount_disconnected(ExampleSystemWeb.Endpoint, Sum, session: %{})
       {:ok, view, _html} = mount(view)
