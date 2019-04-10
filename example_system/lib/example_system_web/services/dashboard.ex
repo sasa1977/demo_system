@@ -12,7 +12,7 @@ defmodule ExampleSystemWeb.Services.Dashboard do
 
   @impl Phoenix.LiveView
   def handle_event("add_service", %{"service" => %{"name" => name}}, socket) do
-    ExampleSystem.Service.start_in_cluster(name)
+    if name != "", do: ExampleSystem.Service.start_in_cluster(name)
     {:noreply, refresh_state(socket)}
   end
 
