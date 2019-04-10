@@ -5,17 +5,21 @@ defmodule Mix.Tasks.ExampleSystem.Upgrade do
   use Mix.Task
 
   def run(_args) do
-    Node.start(:"debugger@127.0.0.1")
+    Node.start(:"upgrader@127.0.0.1")
     Node.set_cookie(:super_secret)
     Node.connect(:"node1@127.0.0.1")
 
-    :ok =
-      File.cp!(
-        "_build/prod/lib/example_system/ebin/Elixir.ExampleSystemWeb.Math.Sum.beam",
-        "_build/prod/rel/node1/lib/example_system-0.0.1/ebin/Elixir.ExampleSystemWeb.Math.Sum.beam"
-      )
+    Enum.each(
+      [ExampleSystemWeb.Math.Sum, ExampleSystem.Math],
+      fn module ->
+        :ok =
+          File.cp!(
+            "_build/prod/lib/example_system/ebin/#{module}.beam",
+            "_build/prod/rel/node1/lib/example_system-0.0.1/ebin/#{module}.beam"
+          )
 
-    {:reloaded, ExampleSystemWeb.Math.Sum, [ExampleSystemWeb.Math.Sum]} =
-      :rpc.call(:"node1@127.0.0.1", IEx.Helpers, :r, [ExampleSystemWeb.Math.Sum])
+        {:reloaded, ^module, [^module]} = :rpc.call(:"node1@127.0.0.1", IEx.Helpers, :r, [module])
+      end
+    )
   end
 end
