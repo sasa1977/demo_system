@@ -38,7 +38,7 @@ defmodule LoadControl.Workers do
       id: __MODULE__,
       start: {__MODULE__, :start_link, []},
       restart: :permanent,
-      shutdown: :infinity,
+      shutdown: :timer.seconds(5),
       type: :supervisor
     }
 end
