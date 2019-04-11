@@ -21,5 +21,7 @@ defmodule Mix.Tasks.ExampleSystem.Upgrade do
         {:reloaded, ^module, [^module]} = :rpc.call(:"node1@127.0.0.1", IEx.Helpers, :r, [module])
       end
     )
+
+    Mix.Shell.IO.info("Upgrade finished successfully.")
   end
 end
