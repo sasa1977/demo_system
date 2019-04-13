@@ -29,7 +29,7 @@ defmodule ExampleSystemWeb.SumTest do
     end
   end
 
-  defp valid_input(), do: filter(positive_integer(), &(&1 != 13))
+  defp valid_input(), do: positive_integer()
   defp invalid_input(), do: one_of([non_positive_integer(), invalid_string()])
 
   defp invalid_string() do
