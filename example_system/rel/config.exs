@@ -10,6 +10,10 @@ environment :prod do
   set include_erts: true
   set include_src: false
   set cookie: :super_secret
+
+  set commands: [
+        log: "rel/commands/log"
+      ]
 end
 
 release :system do
