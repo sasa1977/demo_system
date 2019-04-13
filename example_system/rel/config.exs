@@ -3,7 +3,7 @@ Path.join(["rel", "plugins", "*.exs"])
 |> Enum.map(&Code.eval_file(&1))
 
 use Mix.Releases.Config,
-  default_release: :default,
+  default_release: :system,
   default_environment: :prod
 
 environment :prod do
@@ -12,7 +12,7 @@ environment :prod do
   set cookie: :super_secret
 end
 
-release :node1 do
+release :system do
   set version: current_version(:example_system)
   set applications: [:runtime_tools, :example_system]
   set vm_args: "rel/node1.args"

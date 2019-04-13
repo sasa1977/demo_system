@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.ExampleSystem.Node2 do
+defmodule Mix.Tasks.System.Node2 do
   # Mix.Task behaviour is not in PLT since Mix is not a runtime dep, so we disable the warning
   @dialyzer :no_undefined_callbacks
 
