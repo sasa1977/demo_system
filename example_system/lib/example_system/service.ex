@@ -4,7 +4,7 @@ defmodule ExampleSystem.Service do
   def start_link(), do: DynamicSupervisor.start_link(strategy: :one_for_one, name: __MODULE__)
 
   def start_in_cluster(name) do
-    Swarm.register_name(name, __MODULE__, :start_local, [])
+    Swarm.register_name(name, __MODULE__, :start_local, [name])
   end
 
   def invoke(name) do
@@ -12,7 +12,7 @@ defmodule ExampleSystem.Service do
     Local.invoke(pid)
   end
 
-  def start_local(), do: DynamicSupervisor.start_child(__MODULE__, Local)
+  def start_local(name), do: DynamicSupervisor.start_child(__MODULE__, {Local, name})
 
   def child_spec(_) do
     %{id: __MODULE__, start: {__MODULE__, :start_link, []}}
@@ -21,15 +21,15 @@ defmodule ExampleSystem.Service do
   defmodule Local do
     use GenServer
 
-    def start_link(_), do: GenServer.start_link(__MODULE__, nil)
+    def start_link(name), do: GenServer.start_link(__MODULE__, name)
 
     def invoke(pid), do: GenServer.call(pid, :invoke)
 
     @impl GenServer
-    def init(nil), do: {:ok, %{id: 1}}
+    def init(name), do: {:ok, %{name: name}}
 
     @impl GenServer
     def handle_call(:invoke, _from, state),
-      do: {:reply, "response ##{state.id}", update_in(state.id, &(&1 + 1))}
+      do: {:reply, "response from #{state.name} on #{node()}", state}
   end
 end
