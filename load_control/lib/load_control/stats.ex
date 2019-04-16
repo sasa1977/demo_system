@@ -13,11 +13,13 @@ defmodule LoadControl.Stats do
     :ets.new(__MODULE__, [:named_table, :public, write_concurrency: true, read_concurrency: false])
     set_value(:jobs_processed, 0)
     set_value(:schedulers_usage, 0)
-    :timer.send_interval(100, :emit_stats)
+    enqueue_next()
     {:ok, %{start: :erlang.monotonic_time(), points: [], subscribers: MapSet.new(), emitted_points: []}}
   end
 
   def handle_info(:emit_stats, state) do
+    enqueue_next()
+
     new_point = %{
       jobs_rate: jobs_rate(state.start),
       schedulers_usage: value(:schedulers_usage),
@@ -78,4 +80,6 @@ defmodule LoadControl.Stats do
     [{^key, value}] = :ets.lookup(__MODULE__, key)
     value
   end
+
+  defp enqueue_next(), do: Process.send_after(self(), :emit_stats, 100)
 end

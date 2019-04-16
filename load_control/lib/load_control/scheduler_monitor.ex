@@ -5,11 +5,12 @@ defmodule LoadControl.SchedulerMonitor do
 
   def init(_) do
     :erlang.system_flag(:scheduler_wall_time, true)
-    :timer.send_interval(200, :calc_stats)
+    enqueue_next()
     {:ok, wall_times()}
   end
 
   def handle_info(:calc_stats, previous_times) do
+    enqueue_next()
     LoadControl.Stats.schedulers_usage(usage(previous_times))
     {:noreply, wall_times()}
   end
@@ -43,4 +44,6 @@ defmodule LoadControl.SchedulerMonitor do
     |> Enum.map(fn {id, active_time, total_time} -> {id, %{active: active_time, total: total_time}} end)
     |> Enum.into(%{})
   end
+
+  defp enqueue_next(), do: Process.send_after(self(), :calc_stats, 200)
 end
