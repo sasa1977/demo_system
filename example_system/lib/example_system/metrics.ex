@@ -93,24 +93,24 @@ defmodule ExampleSystem.Metrics do
   defp calc_jobs_graph(state) do
     max_rate = Enum.max(state.jobs_rates)
     order_of_magnitude = if max_rate < 10, do: 1, else: round(:math.pow(10, floor(:math.log10(max_rate)) - 1))
-    step = max(quantize(max_rate / 5, order_of_magnitude), 1)
-    max_rate = max(quantize(max_rate, step), 1)
+    quantized_max_rate = max(round(max_rate / order_of_magnitude) * order_of_magnitude, 1)
+    step = max(quantize(quantized_max_rate / 5, order_of_magnitude), 1)
 
     data_points =
       state.jobs_rates
       |> Stream.with_index(1)
-      |> Enum.map(fn {jobs_rate, pos} -> %{x: (@num_points - pos) / @num_points, y: jobs_rate / max_rate} end)
+      |> Enum.map(fn {jobs_rate, pos} -> %{x: (@num_points - pos) / @num_points, y: jobs_rate / max(max_rate, 1)} end)
 
     legends =
       0
       |> Stream.iterate(&(&1 + step))
       |> Stream.take_while(&(&1 <= max_rate))
-      |> Enum.map(&%{title: title(&1), at: &1 / max_rate})
+      |> Enum.map(&%{title: title(&1), at: &1 / max(max_rate, 1)})
 
     %{state | jobs_graph: %{data_points: data_points, legends: legends}}
   end
 
-  defp quantize(num, quant), do: ceil(num / quant) * quant
+  defp quantize(num, quant), do: round(num / quant) * quant
 
   defp title(num) when num > 0 and rem(num, 1000) == 0, do: "#{div(num, 1000)}k"
   defp title(num), do: num
