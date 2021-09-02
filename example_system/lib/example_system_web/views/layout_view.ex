@@ -1,3 +1,3 @@
 defmodule ExampleSystemWeb.LayoutView do
-  use ExampleSystemWeb.Base.View
+  use ExampleSystemWeb, :view
 end

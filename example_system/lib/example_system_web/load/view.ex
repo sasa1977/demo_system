@@ -1,5 +1,5 @@
 defmodule ExampleSystemWeb.Load.View do
-  use ExampleSystemWeb.Base.View, root: "lib/example_system_web"
+  use ExampleSystemWeb, :view
 
   defp data_points(graph) do
     graph.data_points
