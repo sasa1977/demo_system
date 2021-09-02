@@ -5,7 +5,7 @@ defmodule ExampleSystem.Mixfile do
     [
       app: :example_system,
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -37,12 +37,12 @@ defmodule ExampleSystem.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.4", override: true},
-      {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_html, "~> 2.10"},
-      {:ecto, "~> 3.0"},
-      {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.5", override: true},
+      {:phoenix_html, "~> 2.11"},
+      {:ecto_sql, "~> 3.6.2"},
+      {:phoenix_ecto, "~> 4.1"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_view, "~> 0.15.5"},
       {:gettext, "~> 0.11"},
       {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.7"},
@@ -51,7 +51,6 @@ defmodule ExampleSystem.Mixfile do
       {:jason, "~> 1.0"},
       {:swarm, "~> 3.0"},
       {:load_control, path: "../load_control"},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:parent, "~> 0.6"},
       {:stream_data, "~> 0.4.3", only: :test},
       {:assertions, "~> 0.13", only: :test}
