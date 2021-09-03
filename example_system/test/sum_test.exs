@@ -1,14 +1,17 @@
 defmodule ExampleSystemWeb.SumTest do
-  use ExUnit.Case, async: true
+  # use ExUnit.Case, async: true
+  use ExampleSystemWeb.ConnCase
   use ExUnitProperties
   import Phoenix.LiveViewTest
   import Assertions
   alias ExampleSystemWeb.Math.Sum
+  @endpoint ExampleSystemWeb.Endpoint
 
-  property "flow for valid input" do
+  property "flow for valid input", %{conn: conn} do
     check all(number <- valid_input(), expected_sum = Enum.sum(1..number)) do
-      {:ok, view, _html} = live_isolated(ExampleSystemWeb.Endpoint, Sum, session: %{})
-      {:ok, view, _html} = live(view)
+      {:ok, view, _html} = live_isolated(conn, Sum, session: %{})
+
+      {:ok, view, _html} = live(conn, "/")
 
       html = render_submit(view, "submit", %{"data" => %{"to" => to_string(number)}})
       assert String.contains?(html, "∑(1..#{number}) = calculating")
@@ -21,8 +24,8 @@ defmodule ExampleSystemWeb.SumTest do
 
   property "reporting errors for invalid input" do
     check all(input <- invalid_input()) do
-      {:ok, view, _html} = mount_disconnected(ExampleSystemWeb.Endpoint, Sum, session: %{})
-      {:ok, view, _html} = mount(view)
+      {:ok, view, _html} = live_isolated(Sum, session: %{})
+      {:ok, view, _html} = live(view)
 
       html = render_submit(view, "submit", %{"data" => %{"to" => to_string(input)}})
       assert String.contains?(html, "∑(1..#{input}) = invalid input")

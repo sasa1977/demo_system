@@ -2,7 +2,7 @@ defmodule ExampleSystemWeb.Load.Dashboard do
   use Phoenix.LiveView
 
   @impl Phoenix.LiveView
-  def render(assigns), do: ExampleSystemWeb.Load.View.render("dashboard.html", assigns)
+  def render(assigns), do: ExampleSystemWeb.Load.View.render("dashboard.html.leex", assigns)
 
   @impl Phoenix.LiveView
   def mount(_session, socket) do
@@ -73,5 +73,6 @@ defmodule ExampleSystemWeb.Load.Dashboard do
      )}
   end
 
-  defp changeset(value), do: Ecto.Changeset.cast({%{}, %{value: :integer}}, %{value: value}, [:value])
+  defp changeset(value),
+    do: Ecto.Changeset.cast({%{}, %{value: :integer}}, %{value: value}, [:value])
 end

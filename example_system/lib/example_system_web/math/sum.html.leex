@@ -1,12 +1,12 @@
 <div class="sumForm">
   <%= form_for(@data, "", ["phx-submit": "submit", as: :data], fn f -> %>
-    <%= number_input(f, :to, autofocus: true) %>
+  <%= number_input(f, :to, autofocus: true) %>
   <% end) %>
-  <br/>
+  <br />
 
   <div>
     <%= for operation <- @operations do %>
-      <div>∑(1..<%= operation.input %>) = <%= operation.result %></div>
+    <div>∑(1..<%= operation.input %>) = <%= operation.result %></div>
     <% end %>
   </div>
 </div>

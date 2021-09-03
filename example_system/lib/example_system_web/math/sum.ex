@@ -2,14 +2,27 @@ defmodule ExampleSystemWeb.Math.Sum do
   use Phoenix.LiveView
 
   @impl Phoenix.LiveView
-  def render(assigns), do: ExampleSystemWeb.Math.View.render("sum.html", assigns)
+  def render(assigns) do
+    IO.inspect(assigns, label: "RENDER")
+
+    ExampleSystemWeb.Math.View.render(
+      "sum.html",
+      assigns
+      |> Map.put(:data, data())
+      |> Map.put(:operations, [])
+    )
+  end
 
   @impl Phoenix.LiveView
-  def mount(_session, socket), do: {:ok, assign(socket, operations: [], data: data())}
+  def mount(_session, socket) do
+    IO.inspect(socket.assigns, label: "MOUNT")
+    {:ok, assign(socket, operations: [], data: data())}
+  end
 
   @impl Phoenix.LiveView
-  def handle_event("submit", %{"data" => %{"to" => str_input}}, socket),
-    do: {:noreply, start_sum(socket, str_input)}
+  def handle_event("submit", %{"data" => %{"to" => str_input}}, socket) do
+    {:noreply, start_sum(socket, str_input)}
+  end
 
   def handle_info({:sum, pid, sum}, socket),
     do: {:noreply, update(socket, :operations, &set_result(&1, pid, sum))}
@@ -20,10 +33,15 @@ defmodule ExampleSystemWeb.Math.Sum do
   defp start_sum(socket, str_input) do
     operation =
       case Integer.parse(str_input) do
-        :error -> %{pid: nil, input: str_input, result: "invalid input"}
-        {_input, remaining} when byte_size(remaining) > 0 -> %{pid: nil, input: str_input, result: "invalid input"}
+        :error ->
+          %{pid: nil, input: str_input, result: "invalid input"}
+
+        {_input, remaining} when byte_size(remaining) > 0 ->
+          %{pid: nil, input: str_input, result: "invalid input"}
+
         # {input, ""} when input <= 0 -> %{pid: nil, input: input, result: "invalid input"}
-        {input, ""} -> do_start_sum(input)
+        {input, ""} ->
+          do_start_sum(input)
       end
 
     socket |> update(:operations, &[operation | &1]) |> assign(:data, data())

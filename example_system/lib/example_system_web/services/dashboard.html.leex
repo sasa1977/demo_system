@@ -1,24 +1,24 @@
 <div>
   <%= form_tag("", class: "form", "phx-submit": "add_service") do %>
-    <%= text_input(:service, :name, autofocus: true) %>
+  <%= text_input(:service, :name, autofocus: true) %>
   <% end %>
 </div>
 
 <ul class="paragraph">
   <%= Enum.map(@nodes, fn node -> %>
-    <li>
-      <%= node.name %>
-      <ul>
-        <%= Enum.map(node.services, fn service -> %>
-          <li>
-            <%= link(service, to: "#", "phx-click": "invoke_#{service}") %>
-          </li>
-        <% end) %>
-      </ul>
-    </li>
+  <li>
+    <%= node.name %>
+    <ul>
+      <%= Enum.map(node.services, fn service -> %>
+      <li>
+        <%= link(service, to: "#", "phx-click": "invoke_#{service}") %>
+      </li>
+      <% end) %>
+    </ul>
+  </li>
   <% end) %>
 </ul>
 
 <%= if @response != nil do %>
-  <div class="paragraph"><%= @response %></div>
+<div class="paragraph"><%= @response %></div>
 <% end %>

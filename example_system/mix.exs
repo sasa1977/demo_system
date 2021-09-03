@@ -37,23 +37,24 @@ defmodule ExampleSystem.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.5", override: true},
-      {:phoenix_html, "~> 2.11"},
+      {:assertions, "~> 0.13", only: :test},
+      {:distillery, "~> 2.0"},
       {:ecto_sql, "~> 3.6.2"},
+      {:floki, ">= 0.30.0", only: :test},
+      {:gettext, "~> 0.11"},
+      {:jason, "~> 1.0"},
+      {:load_control, path: "../load_control"},
+      {:parent, "~> 0.10.0"},
       {:phoenix_ecto, "~> 4.1"},
+      {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.15.5"},
-      {:gettext, "~> 0.11"},
+      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.5", override: true},
       {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.7"},
       {:recon, "~> 2.0"},
-      {:distillery, "~> 2.0"},
-      {:jason, "~> 1.0"},
-      {:swarm, "~> 3.0"},
-      {:load_control, path: "../load_control"},
-      {:parent, "~> 0.6"},
       {:stream_data, "~> 0.4.3", only: :test},
-      {:assertions, "~> 0.13", only: :test}
+      {:swarm, "~> 3.0"}
     ]
   end
 end

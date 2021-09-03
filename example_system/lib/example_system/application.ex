@@ -7,6 +7,7 @@ defmodule ExampleSystem.Application do
     with {:ok, pid} <-
            Supervisor.start_link(
              [
+               {Phoenix.PubSub, [name: ExampleSystemWeb.PubSub, adapter: Phoenix.PubSub.PG2]},
                ExampleSystem.Top,
                ExampleSystem.Metrics,
                ExampleSystem.Service,

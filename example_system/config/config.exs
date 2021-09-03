@@ -10,7 +10,7 @@ config :example_system, ExampleSystemWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "CRulGglCO2Nnoo8X/DgocGTgzDvMlAZ750QCd2hfe7mIUv/jRw2MCST3fonN2c2P",
   render_errors: [view: ExampleSystemWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: ExampleSystemWeb.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: ExampleSystemWeb.PubSub,
   live_view: [signing_salt: "66Jp7PO+NlJCA1sf6mB/5WrEdicRPQmu"]
 
 # Configures Elixir's Logger
