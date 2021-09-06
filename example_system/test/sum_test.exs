@@ -7,17 +7,23 @@ defmodule ExampleSystemWeb.SumTest do
   alias ExampleSystemWeb.Math.Sum
   @endpoint ExampleSystemWeb.Endpoint
 
+  @error_raising_input_value 13
+
   property "flow for valid input", %{conn: conn} do
     check all(number <- valid_input(), expected_sum = Enum.sum(1..number)) do
-      {:ok, view, _html} = live_isolated(conn, Sum, session: %{})
+      if number != @error_raising_input_value do
+        conn = get(conn, "/")
 
-      {:ok, view, _html} = live(conn, "/")
+        {:ok, view, _html} = live(conn)
 
-      html = render_submit(view, "submit", %{"data" => %{"to" => to_string(number)}})
-      assert String.contains?(html, "∑(1..#{number}) = calculating")
+        # {:ok, view, _html} = live_isolated(conn, Sum, session: %{})
 
-      assert_async(timeout: :timer.seconds(1), sleep_time: 10) do
-        assert String.contains?(render(view), "∑(1..#{number}) = #{expected_sum}")
+        html = render_submit(view, "submit", %{"data" => %{"to" => to_string(number)}})
+        assert String.contains?(html, "∑(1..#{number}) = calculating")
+
+        assert_async(timeout: :timer.seconds(1), sleep_time: 10) do
+          assert String.contains?(render(view), "∑(1..#{number}) = #{expected_sum}")
+        end
       end
     end
   end

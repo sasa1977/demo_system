@@ -3,19 +3,14 @@ defmodule ExampleSystemWeb.Math.Sum do
 
   @impl Phoenix.LiveView
   def render(assigns) do
-    IO.inspect(assigns, label: "RENDER")
-
     ExampleSystemWeb.Math.View.render(
       "sum.html",
       assigns
-      |> Map.put(:data, data())
-      |> Map.put(:operations, [])
     )
   end
 
   @impl Phoenix.LiveView
-  def mount(_session, socket) do
-    IO.inspect(socket.assigns, label: "MOUNT")
+  def mount(_params, _session, socket) do
     {:ok, assign(socket, operations: [], data: data())}
   end
 
