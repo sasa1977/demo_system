@@ -11,10 +11,13 @@ defmodule LoadControl.Stats do
 
   def init(_) do
     :ets.new(__MODULE__, [:named_table, :public, write_concurrency: true, read_concurrency: false])
+
     set_value(:jobs_processed, 0)
     set_value(:schedulers_usage, 0)
     enqueue_next()
-    {:ok, %{start: :erlang.monotonic_time(), points: [], subscribers: MapSet.new(), emitted_points: []}}
+
+    {:ok,
+     %{start: :erlang.monotonic_time(), points: [], subscribers: MapSet.new(), emitted_points: []}}
   end
 
   def handle_info(:emit_stats, state) do
@@ -55,6 +58,11 @@ defmodule LoadControl.Stats do
   end
 
   def handle_call({:subscribe, subscriber}, _from, state) do
+    IO.inspect(subscriber,
+      label:
+        "LoadControl.Stats subscribe() - pid calling subscribe function (probably LoadControl)"
+    )
+
     {:reply, state.emitted_points, update_in(state.subscribers, &MapSet.put(&1, subscriber))}
   end
 
@@ -69,7 +77,12 @@ defmodule LoadControl.Stats do
     count = value(:jobs_processed)
 
     count
-    |> Kernel./(max(:erlang.convert_time_unit(:erlang.monotonic_time() - start, :native, :microsecond), 100_000))
+    |> Kernel./(
+      max(
+        :erlang.convert_time_unit(:erlang.monotonic_time() - start, :native, :microsecond),
+        100_000
+      )
+    )
     |> Kernel.*(1_000_000)
     |> trunc()
   end
