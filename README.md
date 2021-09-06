@@ -21,7 +21,7 @@ popd &&
 mix compile
 ```
 
-Starting for development with live reload:
+Starting for development with live reload (recommended for following with youtube):
 
 ```
 iex -S mix phx.server
