@@ -24,12 +24,13 @@ defmodule LoadControl.Worker do
     end
   end
 
-  def child_spec(_),
-    do: %{
+  def child_spec(arg) do
+    %{
       id: __MODULE__,
       restart: :transient,
-      start: {__MODULE__, :start_link, []},
+      start: {__MODULE__, :start_link, arg},
       type: :worker,
       shutdown: 5000
     }
+  end
 end
