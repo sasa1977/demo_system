@@ -41,6 +41,7 @@ defmodule ExampleSystem.Mixfile do
       {:distillery, "~> 2.0"},
       {:ecto_sql, "~> 3.6.2"},
       {:floki, ">= 0.30.0", only: :test},
+      {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:load_control, path: "../load_control"},
@@ -49,12 +50,32 @@ defmodule ExampleSystem.Mixfile do
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.15.5"},
-      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.5", override: true},
+      {:phoenix, github: "phoenixframework/phoenix", override: true},
       {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.7"},
       {:recon, "~> 2.0"},
       {:stream_data, "~> 0.4.3", only: :test},
       {:swarm, "~> 3.0"}
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    [
+      setup: ["deps.get", "ecto.setup", "cmd --cd assets yarn"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "assets.deploy": [
+        "cmd --cd assets npm run deploy",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
     ]
   end
 end

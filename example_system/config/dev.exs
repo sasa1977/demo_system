@@ -6,13 +6,14 @@ config :example_system, ExampleSystemWeb.Endpoint,
   check_origin: false,
   http: [transport_options: [num_acceptors: 5]],
   watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      cd: Path.expand("../assets", __DIR__)
-    ]
+    # node: [
+    #   "node_modules/webpack/bin/webpack.js",
+    #   "--mode",
+    #   "development",
+    #   "--watch-stdin",
+    #   cd: Path.expand("../assets", __DIR__)
+    # ],
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 config :example_system, ExampleSystemWeb.Endpoint,

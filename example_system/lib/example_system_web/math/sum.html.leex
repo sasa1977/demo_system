@@ -1,7 +1,8 @@
 <div class="sumForm">
-  <%= form_for(@data, "", ["phx-submit": "submit", as: :data], fn f -> %>
+  <h1>Please insert some number.</h1>
+  <%= f = form_for @data, "/", [phx_submit: "submit", as: :data] %>
   <%= number_input(f, :to, autofocus: true) %>
-  <% end) %>
+  </form>
   <br />
 
   <div>
