@@ -19,6 +19,7 @@ defmodule ExampleSystemWeb.Math.Sum do
     {:noreply, start_sum(socket, str_input)}
   end
 
+  @impl Phoenix.LiveView
   def handle_info({:sum, pid, sum}, socket),
     do: {:noreply, update(socket, :operations, &set_result(&1, pid, sum))}
 
@@ -34,7 +35,10 @@ defmodule ExampleSystemWeb.Math.Sum do
         {_input, remaining} when byte_size(remaining) > 0 ->
           %{pid: nil, input: str_input, result: "invalid input"}
 
-        # {input, ""} when input <= 0 -> %{pid: nil, input: input, result: "invalid input"}
+        # TODO: Sasa commented below.. why?
+        {input, ""} when input <= 0 ->
+          %{pid: nil, input: input, result: "invalid input"}
+
         {input, ""} ->
           do_start_sum(input)
       end

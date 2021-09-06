@@ -28,12 +28,16 @@ defmodule ExampleSystemWeb.SumTest do
     end
   end
 
-  property "reporting errors for invalid input" do
+  property "reporting errors for invalid input", %{conn: conn} do
     check all(input <- invalid_input()) do
-      {:ok, view, _html} = live_isolated(Sum, session: %{})
-      {:ok, view, _html} = live(view)
+      # {:ok, view, _html} = live_isolated(Sum, session: %{})
+      conn = get(conn, "/")
+      {:ok, view, _html} = live(conn)
+
+      # {:ok, view, _html} = live(view)
 
       html = render_submit(view, "submit", %{"data" => %{"to" => to_string(input)}})
+
       assert String.contains?(html, "∑(1..#{input}) = invalid input")
     end
   end
