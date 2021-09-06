@@ -1,18 +1,19 @@
 <div class="mainGrid">
   <div class="loadGrid">
-    <%= form_for(@load, "", ["phx-submit": "change_load", as: :data], fn f -> %>
-      <%= number_input(f, :value, autofocus: true) %>
-    <% end) %>
+    <%= f = form_for @load, "", phx_submit: "change_load", as: :data %>
+    <%= number_input(f, :value, autofocus: true) %>
+    </form>
 
-    <div>jobs (<span phx-click="highlight_memory" class="<%= highlight_class(@highlighted, "memory")%>"><%= @metrics.memory_usage %> MB</span>)</div>
+    <div>jobs (<span phx-click="highlight_memory"
+        class="<%= highlight_class(@highlighted, "memory")%>"><%= @metrics.memory_usage %> MB</span>)</div>
 
-    <%= form_for(@schedulers, "", ["phx-submit": "change_schedulers", as: :data], fn f -> %>
-      <%= number_input(f, :value, autofocus: true) %>
-    <% end) %>
+    <%= f = form_for @schedulers, "", phx_submit: "change_schedulers", as: :data %>
+    <%= number_input(f, :value, autofocus: true) %>
+    </form>
     <div>schedulers</div>
   </div>
 
-  <input type="button" value="reset" phx-click="reset"/>
+  <input type="button" value="reset" phx-click="reset" />
 
   <div class="chartsGrid">
     <div phx-click="highlight_jobs_graph" class="<%= highlight_class(@highlighted, "jobs_graph") %>">

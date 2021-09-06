@@ -2,11 +2,17 @@ defmodule ExampleSystemWeb.Load.Dashboard do
   use Phoenix.LiveView
 
   @impl Phoenix.LiveView
-  def render(assigns), do: ExampleSystemWeb.Load.View.render("dashboard.html", assigns)
+  def render(assigns) do
+    ExampleSystemWeb.Load.View.render("dashboard.html", assigns)
+  end
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     IO.inspect(self(), label: "Dashboard LiveView mounting (subscribes to Metrics). PID is")
+
+    if connected?(socket) do
+      IO.inspect(self(), label: "Dashboard LiveView mouting - socket connected!")
+    end
 
     {:ok,
      assign(socket,
