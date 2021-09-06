@@ -17,6 +17,11 @@ defmodule ExampleSystem.Metrics do
 
   @impl GenServer
   def init(_) do
+    IO.inspect(self(),
+      label:
+        "Metrics init(). Subscribes to LoadControl.Stats.subscribe() through LoadControl.subscribe_to_stats"
+    )
+
     LoadControl.subscribe_to_stats()
 
     {:ok, initial_state()}
@@ -25,6 +30,7 @@ defmodule ExampleSystem.Metrics do
   @impl GenServer
   def handle_call(:subscribe, {pid, _ref}, state) do
     Process.monitor(pid)
+    IO.inspect(pid, label: "Metrics :subscribe")
     {:reply, client_data(state), update_in(state.subscribers, &[pid | &1])}
   end
 
@@ -41,7 +47,8 @@ defmodule ExampleSystem.Metrics do
   end
 
   def handle_info({:DOWN, _mref, :process, pid, _}, state) do
-    {:noreply, update_in(state.subscribers, &Enum.reject(&1, fn subscriber -> subscriber == pid end))}
+    {:noreply,
+     update_in(state.subscribers, &Enum.reject(&1, fn subscriber -> subscriber == pid end))}
   end
 
   defp initial_state() do
@@ -61,8 +68,13 @@ defmodule ExampleSystem.Metrics do
 
   defp client_data(state) do
     state
-    |> Map.take(~w/workers_count memory_usage scheduler_graph jobs_graph load schedulers failure_rate/a)
-    |> Map.merge(%{schedulers_usage: round(100 * hd(state.schedulers_usages)), jobs_rate: hd(state.jobs_rates)})
+    |> Map.take(
+      ~w/workers_count memory_usage scheduler_graph jobs_graph load schedulers failure_rate/a
+    )
+    |> Map.merge(%{
+      schedulers_usage: round(100 * hd(state.schedulers_usages)),
+      jobs_rate: hd(state.jobs_rates)
+    })
   end
 
   defp record_metric(state, entry) do
@@ -70,7 +82,10 @@ defmodule ExampleSystem.Metrics do
       state
       | workers_count: entry.workers_count,
         schedulers_usages:
-          Enum.take([entry.schedulers_usage / entry.scheduler_count | state.schedulers_usages], @num_points),
+          Enum.take(
+            [entry.schedulers_usage / entry.scheduler_count | state.schedulers_usages],
+            @num_points
+          ),
         jobs_rates: Enum.take([entry.jobs_rate | state.jobs_rates], @num_points),
         memory_usage: entry.memory_usage,
         load: LoadControl.load(),
@@ -92,14 +107,19 @@ defmodule ExampleSystem.Metrics do
 
   defp calc_jobs_graph(state) do
     max_rate = Enum.max(state.jobs_rates)
-    order_of_magnitude = if max_rate < 10, do: 1, else: round(:math.pow(10, floor(:math.log10(max_rate)) - 1))
+
+    order_of_magnitude =
+      if max_rate < 10, do: 1, else: round(:math.pow(10, floor(:math.log10(max_rate)) - 1))
+
     quantized_max_rate = max(round(max_rate / order_of_magnitude) * order_of_magnitude, 1)
     step = max(quantize(quantized_max_rate / 5, order_of_magnitude), 1)
 
     data_points =
       state.jobs_rates
       |> Stream.with_index(1)
-      |> Enum.map(fn {jobs_rate, pos} -> %{x: (@num_points - pos) / @num_points, y: jobs_rate / max(max_rate, 1)} end)
+      |> Enum.map(fn {jobs_rate, pos} ->
+        %{x: (@num_points - pos) / @num_points, y: jobs_rate / max(max_rate, 1)}
+      end)
 
     legends =
       0

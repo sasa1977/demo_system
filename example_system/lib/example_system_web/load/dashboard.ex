@@ -6,6 +6,8 @@ defmodule ExampleSystemWeb.Load.Dashboard do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    IO.inspect(self(), label: "Dashboard LiveView mounting (subscribes to Metrics). PID is")
+
     {:ok,
      assign(socket,
        load: changeset(LoadControl.load()),
