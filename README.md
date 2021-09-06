@@ -7,6 +7,9 @@
 Requires Erlang, Elixir, and node.js, as specified in the [.tool-versions](./.tool-versions) file.
 You can use [asdf](https://github.com/asdf-vm/asdf) for that.
 
+`load_control` folder is a library directly being used by the `example_system` mix project, which is
+the demo app.
+
 Building:
 
 ```
