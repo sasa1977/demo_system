@@ -10,6 +10,7 @@ defmodule LoadControl do
   def change_load(desired_load) do
     current_load = load()
     set_value(:current_load, desired_load)
+    IO.inspect(desired_load, label: "Load Control change_load request with desired_load")
 
     if desired_load > current_load do
       (current_load + 1)..desired_load
@@ -53,7 +54,8 @@ defmodule LoadControl do
     value
   end
 
-  defp set_value(key, value), do: :rpc.multicall(all_nodes(), :ets, :insert, [__MODULE__, {key, value}], :infinity)
+  defp set_value(key, value),
+    do: :rpc.multicall(all_nodes(), :ets, :insert, [__MODULE__, {key, value}], :infinity)
 
   defp all_nodes(), do: Node.list([:this, :visible])
 

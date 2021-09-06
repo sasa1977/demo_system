@@ -25,7 +25,7 @@ defmodule LoadControl.Workers do
     do:
       DynamicSupervisor.start_child(
         supervisor_name(rem(id, @shards) + 1),
-        LoadControl.Worker
+        {LoadControl.Worker, [id]}
       )
 
   # def start_worker(id), do: Supervisor.start_child(supervisor_name(rem(id, @shards) + 1), [id])
