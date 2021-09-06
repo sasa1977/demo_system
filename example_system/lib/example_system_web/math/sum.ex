@@ -35,9 +35,9 @@ defmodule ExampleSystemWeb.Math.Sum do
         {_input, remaining} when byte_size(remaining) > 0 ->
           %{pid: nil, input: str_input, result: "invalid input"}
 
-        # TODO: Sasa commented below.. why?
-        {input, ""} when input <= 0 ->
-          %{pid: nil, input: input, result: "invalid input"}
+        # commented to show that this will be a runaway, endless calculation error
+        # {input, ""} when input <= 0 ->
+        #   %{pid: nil, input: input, result: "invalid input"}
 
         {input, ""} ->
           do_start_sum(input)
