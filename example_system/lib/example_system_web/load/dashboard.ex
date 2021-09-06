@@ -2,10 +2,10 @@ defmodule ExampleSystemWeb.Load.Dashboard do
   use Phoenix.LiveView
 
   @impl Phoenix.LiveView
-  def render(assigns), do: ExampleSystemWeb.Load.View.render("dashboard.html.leex", assigns)
+  def render(assigns), do: ExampleSystemWeb.Load.View.render("dashboard.html", assigns)
 
   @impl Phoenix.LiveView
-  def mount(_session, socket) do
+  def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
        load: changeset(LoadControl.load()),

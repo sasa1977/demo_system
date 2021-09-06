@@ -2,7 +2,7 @@ defmodule ExampleSystemWeb.Top.Dashboard do
   use Phoenix.LiveView
 
   @impl Phoenix.LiveView
-  def mount(_session, socket) do
+  def mount(_params, _session, socket) do
     {:ok, assign(socket, top: ExampleSystem.Top.subscribe(), output: "")}
   end
 
