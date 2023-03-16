@@ -51,3 +51,49 @@ Hot upgrade with no downtime:
 ```
 mix system.upgrade
 ```
+
+## Docker
+
+You can also run this demo using docker
+
+```
+make build # builds the container
+make run # starts the container
+make connect # starts a local shell
+```
+
+Then you can run the same commands:
+```
+./rebuild.sh # optional, if you want to rebuild
+./_build/prod/rel/system/bin/system start
+
+./restart.sh # if you want to restart
+
+./_build/prod/rel/system/bin/system remote_console
+```
+
+Debugging commands in remote console:
+```
+Process.list()
+Process.list() |> hd()
+Process.list() |> hd() |> Process.info()
+
+# Custom `Runtime` module
+Runtime.top()
+pid = Runtime.top() |> hd() |> Map.get(:pid)
+Process.info(pid, :current_stacktrace)
+Runtime.trace(pid)
+
+# Kill it
+Process.exit(pid, :kill)
+```
+
+To do live upgrade:
+```
+mix system.upgrade
+```
+
+To start a new node:
+```
+mix system.node2
+```

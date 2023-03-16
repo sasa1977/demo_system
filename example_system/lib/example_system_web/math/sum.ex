@@ -22,6 +22,7 @@ defmodule ExampleSystemWeb.Math.Sum do
       case Integer.parse(str_input) do
         :error -> %{pid: nil, input: str_input, result: "invalid input"}
         {_input, remaining} when byte_size(remaining) > 0 -> %{pid: nil, input: str_input, result: "invalid input"}
+        # TODO: Fix error
         # {input, ""} when input <= 0 -> %{pid: nil, input: input, result: "invalid input"}
         {input, ""} -> do_start_sum(input)
       end
