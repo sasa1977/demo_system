@@ -1,6 +1,8 @@
+**The newer version of the code which works with the latest Erlang, Elixir, and Phoenix, can be found [here](https://github.com/sasa1977/soul_of_erlang_and_elixir).**
+
 # Demo system
 
-> https://www.youtube.com/watch?v=JvBT4XBdoUE
+The original demo used in [The Soul of Erlang and Elixir](https://www.youtube.com/watch?v=JvBT4XBdoUE) talk.
 
 ## Getting started
 
